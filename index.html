@@ -1,2064 +1,1762 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="RITO INK — estudio de tatuajes de autor. Blackwork, fine line, ornamental y piezas personalizadas." />
-  <meta name="theme-color" content="#0e0d0d" />
-  <title>RITO INK | Estudio de tatuajes</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
-    rel="stylesheet"
-  />
-
-  <style>
-    :root{
-      --bg:#0e0d0d;
-      --bg-soft:#171515;
-      --panel:#141313;
-      --line:rgba(255,255,255,.12);
-
-      --text:#f3eee7;
-      --muted:#aaa29a;
-
-      --accent:#d14f39;
-      --accent-2:#f26b54;
-      --sand:#dfd4c3;
-
-      --shadow:0 30px 80px rgba(0,0,0,.35);
-      --container:1360px;
-      --radius:26px;
-      --ease:.38s cubic-bezier(.2,.7,.2,1);
-    }
-
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
-
-    html{
-      scroll-behavior:smooth;
-    }
-
-    body{
-      font-family:"Inter",sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      overflow-x:hidden;
-      background-image:
-        radial-gradient(circle at 15% 20%, rgba(209,79,57,.05), transparent 24%),
-        radial-gradient(circle at 85% 10%, rgba(255,255,255,.03), transparent 24%);
-    }
-
-    img{
-      width:100%;
-      display:block;
-    }
-
-    a{
-      color:inherit;
-      text-decoration:none;
-    }
-
-    button,
-    input,
-    textarea,
-    select{
-      font:inherit;
-    }
-
-    button{
-      border:0;
-      background:none;
-      cursor:pointer;
-    }
-
-    ::selection{
-      background:var(--accent);
-      color:#fff;
-    }
-
-    .container{
-      width:min(calc(100% - 48px), var(--container));
-      margin:auto;
-    }
-
-    .section{
-      padding:120px 0;
-    }
-
-    .eyebrow{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin-bottom:18px;
-      color:var(--accent-2);
-      font-family:"Space Mono",monospace;
-      font-size:11px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-    }
-
-    .eyebrow::before{
-      content:"";
-      width:34px;
-      height:1px;
-      background:currentColor;
-    }
-
-    .display{
-      font-family:"Bebas Neue",sans-serif;
-      font-size:clamp(58px,9vw,132px);
-      line-height:.88;
-      letter-spacing:.02em;
-      text-transform:uppercase;
-    }
-
-    .display span{
-      color:var(--accent);
-    }
-
-    .lead{
-      max-width:560px;
-      color:var(--muted);
-      font-size:17px;
-      line-height:1.85;
-    }
-
-    .btn{
-      min-height:56px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:12px;
-      padding:0 24px;
-      font-size:13px;
-      font-weight:800;
-      letter-spacing:.05em;
-      text-transform:uppercase;
-      transition:var(--ease);
-    }
-
-    .btn-primary{
-      background:var(--accent);
-      color:white;
-    }
-
-    .btn-primary:hover{
-      background:var(--accent-2);
-      transform:translateY(-3px);
-    }
-
-    .btn-outline{
-      border:1px solid rgba(255,255,255,.18);
-      color:var(--text);
-    }
-
-    .btn-outline:hover{
-      background:var(--text);
-      color:#111;
-      transform:translateY(-3px);
-    }
-
-    .grid-2{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:70px;
-    }
-
-    .reveal{
-      opacity:0;
-      transform:translateY(30px);
-      transition:opacity .8s ease, transform .8s ease;
-    }
-
-    .reveal.visible{
-      opacity:1;
-      transform:translateY(0);
-    }
-
-
-    /* =====================================================
-       HEADER
-    ===================================================== */
-
-    header{
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      z-index:999;
-      padding:18px 0;
-      transition:var(--ease);
-    }
-
-    header.scrolled{
-      padding:12px 0;
-      background:rgba(14,13,13,.92);
-      backdrop-filter:blur(14px);
-      -webkit-backdrop-filter:blur(14px);
-      border-bottom:1px solid var(--line);
-    }
-
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:26px;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      flex-shrink:0;
-    }
-
-    .brand-mark{
-      width:40px;
-      height:40px;
-      border:1px solid rgba(255,255,255,.22);
-      display:grid;
-      place-items:center;
-      color:var(--accent);
-      font-family:"Bebas Neue",sans-serif;
-      font-size:24px;
-      letter-spacing:.04em;
-    }
-
-    .brand-name{
-      font-family:"Bebas Neue",sans-serif;
-      font-size:31px;
-      line-height:.9;
-      letter-spacing:.07em;
-    }
-
-    .brand-sub{
-      display:block;
-      margin-top:4px;
-      color:#8d8378;
-      font-family:"Space Mono",monospace;
-      font-size:9px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-    }
-
-    nav ul{
-      list-style:none;
-      display:flex;
-      align-items:center;
-      gap:28px;
-    }
-
-    nav a{
-      font-size:12px;
-      font-weight:700;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      color:#d7d0c7;
-    }
-
-    nav a:hover{
-      color:var(--accent-2);
-    }
-
-    .nav-cta{
-      padding:12px 18px;
-      border:1px solid rgba(209,79,57,.55);
-      color:#fff;
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.05em;
-      text-transform:uppercase;
-    }
-
-    .nav-cta:hover{
-      background:var(--accent);
-      border-color:var(--accent);
-    }
-
-    .menu-btn{
-      display:none;
-      width:46px;
-      height:46px;
-      border:1px solid var(--line);
-      color:white;
-      font-size:22px;
-      background:#141313;
-    }
-
-
-    /* =====================================================
-       HERO
-    ===================================================== */
-
-    .hero{
-      position:relative;
-      min-height:100svh;
-      display:flex;
-      align-items:center;
-      padding:130px 0 70px;
-      overflow:hidden;
-    }
-
-    .hero::before{
-      content:"RITO";
-      position:absolute;
-      top:54%;
-      left:52%;
-      transform:translate(-50%,-50%);
-      font-family:"Bebas Neue",sans-serif;
-      font-size:clamp(180px,30vw,460px);
-      line-height:.8;
-      color:white;
-      opacity:.025;
-      letter-spacing:.06em;
-      pointer-events:none;
-    }
-
-    .hero-layout{
-      position:relative;
-      z-index:2;
-      display:grid;
-      grid-template-columns:minmax(0,1.02fr) minmax(420px,.98fr);
-      gap:clamp(45px,7vw,110px);
-      align-items:center;
-      padding-inline:clamp(18px,3vw,60px);
-    }
-
-    .hero-copy{
-      max-width:720px;
-    }
-
-    .hero-title{
-      font-family:"Bebas Neue",sans-serif;
-      font-size:clamp(82px,10vw,164px);
-      line-height:.8;
-      letter-spacing:.02em;
-      text-transform:uppercase;
-    }
-
-    .hero-title span{
-      color:var(--accent);
-      display:block;
-    }
-
-    .hero-text{
-      max-width:520px;
-      margin-top:26px;
-      color:#b3aba1;
-      font-size:17px;
-      line-height:1.85;
-    }
-
-    .hero-actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:14px;
-      margin-top:34px;
-    }
-
-    .hero-tags{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:36px;
-    }
-
-    .hero-tags span{
-      padding:9px 12px;
-      border:1px solid rgba(255,255,255,.12);
-      color:#cfc6bb;
-      background:rgba(255,255,255,.03);
-      font-family:"Space Mono",monospace;
-      font-size:11px;
-      text-transform:uppercase;
-    }
-
-    .hero-visual{
-      position:relative;
-      min-height:720px;
-    }
-
-    .hero-main-image{
-      position:absolute;
-      right:0;
-      top:0;
-      width:72%;
-      height:590px;
-      overflow:hidden;
-      border-radius:26px;
-      box-shadow:var(--shadow);
-    }
-
-    .hero-main-image img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .hero-side-image{
-      position:absolute;
-      left:0;
-      bottom:80px;
-      width:42%;
-      height:290px;
-      overflow:hidden;
-      border:10px solid #111;
-      box-shadow:var(--shadow);
-    }
-
-    .hero-side-image img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .hero-card{
-      position:absolute;
-      right:10%;
-      bottom:0;
-      width:min(270px,100%);
-      padding:22px;
-      background:rgba(20,19,19,.95);
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow:var(--shadow);
-    }
-
-    .hero-card small{
-      display:block;
-      color:var(--accent-2);
-      font-family:"Space Mono",monospace;
-      font-size:10px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      margin-bottom:10px;
-    }
-
-    .hero-card strong{
-      display:block;
-      font-family:"Bebas Neue",sans-serif;
-      font-size:34px;
-      line-height:.95;
-      letter-spacing:.04em;
-      margin-bottom:8px;
-    }
-
-    .hero-card p{
-      color:#b2a89e;
-      font-size:13px;
-      line-height:1.7;
-    }
-
-
-    /* =====================================================
-       STRIP
-    ===================================================== */
-
-    .marquee{
-      overflow:hidden;
-      background:var(--accent);
-      color:#fff;
-      border-top:1px solid rgba(255,255,255,.12);
-      border-bottom:1px solid rgba(255,255,255,.12);
-      transform:rotate(-1.2deg) scale(1.02);
-      margin:12px 0;
-    }
-
-    .marquee-track{
-      display:flex;
-      width:max-content;
-      animation:marquee 42s linear infinite;
-    }
-
-    .marquee-set{
-      display:flex;
-      align-items:center;
-      gap:28px;
-      padding:16px 22px;
-      white-space:nowrap;
-      font-family:"Bebas Neue",sans-serif;
-      font-size:34px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-    }
-
-    .marquee-set i{
-      width:10px;
-      height:10px;
-      background:white;
-      transform:rotate(45deg);
-      flex-shrink:0;
-    }
-
-    @keyframes marquee{
-      from{transform:translateX(0);}
-      to{transform:translateX(-50%);}
-    }
-
-
-    /* =====================================================
-       MANIFESTO
-    ===================================================== */
-
-    .manifesto{
-      background:linear-gradient(180deg, var(--bg) 0%, #131212 100%);
-    }
-
-    .manifesto-grid{
-      display:grid;
-      grid-template-columns:.7fr 1.3fr;
-      gap:80px;
-      align-items:start;
-    }
-
-    .manifesto-visual{
-      display:flex;
-      flex-direction:column;
-      gap:26px;
-    }
-
-    .manifesto-visual img{
-      height:430px;
-      object-fit:cover;
-      filter:grayscale(100%);
-    }
-
-    .manifesto-note{
-      padding-top:12px;
-      border-top:1px solid var(--line);
-      color:#998e84;
-      font-family:"Space Mono",monospace;
-      font-size:11px;
-      line-height:1.8;
-      text-transform:uppercase;
-    }
-
-    .manifesto-copy h2{
-      font-family:"Bebas Neue",sans-serif;
-      font-size:clamp(70px,9vw,132px);
-      line-height:.84;
-      text-transform:uppercase;
-      letter-spacing:.02em;
-      margin-bottom:32px;
-    }
-
-    .manifesto-copy h2 span{
-      color:var(--accent);
-    }
-
-    .manifesto-columns{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:34px;
-      padding-top:28px;
-      border-top:1px solid var(--line);
-    }
-
-    .manifesto-columns p{
-      color:#aea59b;
-      line-height:1.9;
-      font-size:15px;
-    }
-
-    .manifesto-columns p:first-child{
-      color:var(--text);
-      font-weight:700;
-      font-size:18px;
-    }
-
-
-    /* =====================================================
-       STYLES
-    ===================================================== */
-
-    .styles{
-      background:var(--sand);
-      color:#141212;
-    }
-
-    .styles .eyebrow{
-      color:#a44534;
-    }
-
-    .styles-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:end;
-      gap:50px;
-      margin-bottom:65px;
-    }
-
-    .styles-head .lead{
-      color:#5d5750;
-      margin-bottom:0;
-    }
-
-    .styles-layout{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:55px;
-      align-items:start;
-    }
-
-    .style-preview{
-      position:relative;
-      overflow:hidden;
-      background:#28211d;
-      min-height:620px;
-      box-shadow:0 20px 50px rgba(20,12,10,.12);
-    }
-
-    .style-preview img{
-      width:100%;
-      height:620px;
-      object-fit:cover;
-      transition:opacity .25s ease;
-    }
-
-    .style-preview-caption{
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:0;
-      padding:22px 24px;
-      background:linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,0));
-      color:white;
-    }
-
-    .style-preview-caption small{
-      display:block;
-      font-family:"Space Mono",monospace;
-      font-size:10px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color:#f0beb5;
-      margin-bottom:8px;
-    }
-
-    .style-preview-caption strong{
-      display:block;
-      font-family:"Bebas Neue",sans-serif;
-      font-size:38px;
-      line-height:.9;
-      letter-spacing:.05em;
-      text-transform:uppercase;
-    }
-
-    .styles-list{
-      border-top:1px solid rgba(0,0,0,.12);
-    }
-
-    .style-item{
-      border-bottom:1px solid rgba(0,0,0,.12);
-    }
-
-    .style-trigger{
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      padding:24px 0;
-      color:#141212;
-      text-align:left;
-    }
-
-    .style-trigger h3{
-      font-family:"Bebas Neue",sans-serif;
-      font-size:38px;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-      line-height:.95;
-    }
-
-    .style-trigger span{
-      font-size:24px;
-      color:#9a493b;
-      transition:var(--ease);
-    }
-
-    .style-item.active .style-trigger span{
-      transform:rotate(45deg);
-    }
-
-    .style-detail{
-      max-height:0;
-      overflow:hidden;
-      transition:max-height .35s ease;
-    }
-
-    .style-detail p{
-      max-width:470px;
-      padding-bottom:24px;
-      color:#5e5851;
-      font-size:14px;
-      line-height:1.8;
-    }
-
-
-    /* =====================================================
-       PORTFOLIO
-    ===================================================== */
-
-    .portfolio{
-      background:#100f0f;
-    }
-
-    .portfolio-head{
-      display:grid;
-      grid-template-columns:1.05fr .95fr;
-      gap:60px;
-      align-items:end;
-      margin-bottom:70px;
-    }
-
-    .portfolio-grid{
-      display:grid;
-      grid-template-columns:1.2fr .8fr 1fr;
-      gap:18px;
-      align-items:start;
-    }
-
-    .folio-card{
-      position:relative;
-      overflow:hidden;
-      background:#1c1b1b;
-      min-height:420px;
-      box-shadow:var(--shadow);
-    }
-
-    .folio-card:nth-child(2){
-      margin-top:80px;
-      min-height:330px;
-    }
-
-    .folio-card:nth-child(3){
-      margin-top:30px;
-      min-height:470px;
-    }
-
-    .folio-card:nth-child(4){
-      min-height:360px;
-      grid-column:1 / span 2;
-    }
-
-    .folio-card:nth-child(5){
-      min-height:360px;
-      grid-column:3 / span 1;
-    }
-
-    .folio-card img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      transition:.7s ease;
-    }
-
-    .folio-card:hover img{
-      transform:scale(1.06);
-    }
-
-    .folio-card::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(to top, rgba(0,0,0,.68), transparent 45%);
-    }
-
-    .folio-info{
-      position:absolute;
-      left:22px;
-      right:22px;
-      bottom:18px;
-      z-index:2;
-    }
-
-    .folio-info small{
-      display:block;
-      color:#f1b2a5;
-      font-family:"Space Mono",monospace;
-      font-size:10px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      margin-bottom:8px;
-    }
-
-    .folio-info h3{
-      font-family:"Bebas Neue",sans-serif;
-      font-size:36px;
-      line-height:.9;
-      letter-spacing:.05em;
-      text-transform:uppercase;
-    }
-
-
-    /* =====================================================
-       PROCESS
-    ===================================================== */
-
-    .process{
-      background:linear-gradient(180deg, #171313 0%, #0f0e0e 100%);
-    }
-
-    .process-top{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:70px;
-      align-items:end;
-      margin-bottom:65px;
-    }
-
-    .steps{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:18px;
-    }
-
-    .step{
-      padding:30px 22px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.03);
-      min-height:250px;
-    }
-
-    .step-num{
-      width:44px;
-      height:44px;
-      display:grid;
-      place-items:center;
-      border-radius:50%;
-      background:rgba(209,79,57,.18);
-      color:var(--accent-2);
-      font-family:"Space Mono",monospace;
-      font-size:12px;
-      margin-bottom:22px;
-    }
-
-    .step h3{
-      font-family:"Bebas Neue",sans-serif;
-      font-size:34px;
-      line-height:.9;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-      margin-bottom:12px;
-    }
-
-    .step p{
-      color:#b3a79c;
-      font-size:14px;
-      line-height:1.8;
-    }
-
-
-    /* =====================================================
-       BOOKING
-    ===================================================== */
-
-    .booking{
-      background:var(--sand);
-      color:#151212;
-    }
-
-    .booking .eyebrow{
-      color:#a44534;
-    }
-
-    .booking-grid{
-      display:grid;
-      grid-template-columns:.92fr 1.08fr;
-      gap:80px;
-      align-items:start;
-    }
-
-    .booking-copy p{
-      max-width:470px;
-      color:#5e5851;
-      line-height:1.85;
-      margin-top:24px;
-    }
-
-    .booking-list{
-      margin-top:40px;
-      border-top:1px solid rgba(0,0,0,.12);
-    }
-
-    .booking-list div{
-      display:flex;
-      justify-content:space-between;
-      gap:15px;
-      padding:18px 0;
-      border-bottom:1px solid rgba(0,0,0,.12);
-      font-size:14px;
-    }
-
-    .booking-list span{
-      color:#6d665f;
-    }
-
-    .booking-form{
-      background:#fff;
-      padding:38px;
-      box-shadow:0 20px 55px rgba(30,20,15,.08);
-    }
-
-    .booking-form h3{
-      font-family:"Bebas Neue",sans-serif;
-      font-size:42px;
-      line-height:.95;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-      margin-bottom:24px;
-    }
-
-    .form-row{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:16px;
-    }
-
-    .field{
-      margin-bottom:18px;
-    }
-
-    .field label{
-      display:block;
-      margin-bottom:8px;
-      font-family:"Space Mono",monospace;
-      font-size:10px;
-      letter-spacing:.1em;
-      text-transform:uppercase;
-      color:#72685f;
-    }
-
-    .field input,
-    .field select,
-    .field textarea{
-      width:100%;
-      padding:15px 14px;
-      border:1px solid #e1d9cf;
-      background:#faf8f4;
-      color:#191616;
-      outline:none;
-    }
-
-    .field input:focus,
-    .field select:focus,
-    .field textarea:focus{
-      border-color:#b8604f;
-    }
-
-    .field textarea{
-      min-height:115px;
-      resize:vertical;
-    }
-
-    .booking-form .btn{
-      width:100%;
-    }
-
-    .form-note{
-      margin-top:14px;
-      color:#7b7168;
-      font-size:11px;
-      line-height:1.6;
-    }
-
-
-    /* =====================================================
-       FOOTER
-    ===================================================== */
-
-    footer{
-      padding:70px 0 26px;
-      background:#0a0a0a;
-      border-top:1px solid rgba(255,255,255,.06);
-    }
-
-    .footer-top{
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:70px;
-      align-items:start;
-      padding-bottom:60px;
-    }
-
-    .footer-top p{
-      max-width:420px;
-      margin-top:22px;
-      color:#8f8479;
-      font-size:14px;
-      line-height:1.8;
-    }
-
-    .footer-links{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px 30px;
-      align-content:start;
-    }
-
-    .footer-links a{
-      color:#d5cdc3;
-      font-size:13px;
-    }
-
-    .footer-links a:hover{
-      color:var(--accent-2);
-    }
-
-    .footer-word{
-      text-align:center;
-      font-family:"Bebas Neue",sans-serif;
-      font-size:clamp(120px,24vw,340px);
-      line-height:.8;
-      letter-spacing:.04em;
-      color:#24201d;
-      user-select:none;
-    }
-
-    .footer-bottom{
-      display:flex;
-      justify-content:space-between;
-      gap:20px;
-      padding-top:25px;
-      border-top:1px solid rgba(255,255,255,.08);
-      color:#7d7369;
-      font-size:11px;
-    }
-
-
-    /* =====================================================
-       WHATSAPP
-    ===================================================== */
-
-    .whatsapp{
-      position:fixed;
-      right:22px;
-      bottom:22px;
-      z-index:900;
-      width:58px;
-      height:58px;
-      display:grid;
-      place-items:center;
-      border-radius:50%;
-      background:#25d366;
-      box-shadow:0 16px 35px rgba(0,0,0,.25);
-      transition:var(--ease);
-    }
-
-    .whatsapp:hover{
-      transform:translateY(-4px) scale(1.03);
-    }
-
-    .whatsapp svg{
-      width:27px;
-      height:27px;
-      fill:white;
-    }
-
-
-    /* =====================================================
-       TABLET
-    ===================================================== */
-
-    @media(max-width:1080px){
-
-      nav ul,
-      .nav-cta{
-        display:none;
-      }
-
-      .menu-btn{
-        display:grid;
-        place-items:center;
-      }
-
-      nav.mobile-open ul{
-        position:fixed;
-        top:78px;
-        left:16px;
-        right:16px;
-        display:flex;
-        flex-direction:column;
-        align-items:stretch;
-        gap:0;
-        padding:18px;
-        background:rgba(14,13,13,.98);
-        border:1px solid var(--line);
-      }
-
-      nav.mobile-open ul a{
-        display:block;
-        padding:14px 12px;
-      }
-
-      .hero-layout,
-      .manifesto-grid,
-      .styles-layout,
-      .booking-grid{
-        grid-template-columns:1fr;
-      }
-
-      .portfolio-head,
-      .process-top,
-      .styles-head{
-        grid-template-columns:1fr;
-        display:grid;
-      }
-
-      .portfolio-grid{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .folio-card:nth-child(1),
-      .folio-card:nth-child(2),
-      .folio-card:nth-child(3),
-      .folio-card:nth-child(4),
-      .folio-card:nth-child(5){
-        grid-column:auto;
-        margin-top:0;
-        min-height:360px;
-      }
-
-      .steps{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .footer-top{
-        grid-template-columns:1fr;
-      }
-    }
-
-
-    /* =====================================================
-       MOBILE
-    ===================================================== */
-
-    @media(max-width:700px){
-
-      .container{
-        width:min(calc(100% - 30px), var(--container));
-      }
-
-      .section{
-        padding:88px 0;
-      }
-
-      header{
-        padding:15px 0;
-      }
-
-      .hero{
-        min-height:auto;
-        padding:110px 0 55px;
-      }
-
-      .hero-layout{
-        padding-inline:4px;
-        gap:42px;
-      }
-
-      .hero-title{
-        font-size:clamp(68px,18vw,110px);
-      }
-
-      .hero-text{
-        font-size:15px;
-      }
-
-      .hero-actions{
-        flex-direction:column;
-      }
-
-      .hero-actions .btn{
-        width:100%;
-      }
-
-      .hero-visual{
-        min-height:540px;
-      }
-
-      .hero-main-image{
-        width:86%;
-        height:390px;
-      }
-
-      .hero-side-image{
-        width:45%;
-        height:180px;
-        bottom:78px;
-        border-width:7px;
-      }
-
-      .hero-card{
-        right:0;
-        width:220px;
-        padding:16px;
-      }
-
-      .marquee-set{
-        font-size:26px;
-      }
-
-      .manifesto-copy h2,
-      .display{
-        font-size:clamp(56px,16vw,86px);
-      }
-
-      .manifesto-columns{
-        grid-template-columns:1fr;
-      }
-
-      .style-preview{
-        min-height:420px;
-      }
-
-      .style-preview img{
-        height:420px;
-      }
-
-      .style-trigger h3{
-        font-size:30px;
-      }
-
-      .portfolio-grid{
-        grid-template-columns:1fr;
-      }
-
-      .folio-card{
-        min-height:360px !important;
-      }
-
-      .steps{
-        grid-template-columns:1fr;
-      }
-
-      .booking-form{
-        padding:26px 22px;
-      }
-
-      .form-row{
-        grid-template-columns:1fr;
-        gap:0;
-      }
-
-      .footer-links{
-        grid-template-columns:1fr;
-      }
-
-      .footer-bottom{
-        flex-direction:column;
-      }
-    }
-
-    @media(prefers-reduced-motion:reduce){
-      html{
-        scroll-behavior:auto;
-      }
-
-      *, *::before, *::after{
-        animation-duration:.01ms !important;
-        transition-duration:.01ms !important;
-      }
-
-      .reveal{
-        opacity:1;
-        transform:none;
-      }
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f1ecdf">
+<meta name="description" content="KASUMI. Estudio de tatuaje japonés de inspiración tradicional. Diseño, composición y piezas de autor.">
+<title>KASUMI 霞 — Japanese Tattoo Atelier</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --paper:#f1ecdf;
+  --paper-light:#fcf9f0;
+  --paper-dark:#e1d8c7;
+  --ink:#172c3b;
+  --ink-deep:#10202d;
+  --red:#aa4838;
+  --red-deep:#873526;
+  --gold:#ad8c5f;
+  --sub:#646b69;
+  --rule:rgba(23,44,59,.19);
+  --serif:"Cormorant Garamond",serif;
+  --jp:"Noto Serif JP",serif;
+  --sans:"DM Sans",sans-serif;
+}
+* {box-sizing:border-box}
+html {scroll-behavior:smooth;scroll-padding-top:84px}
+body {
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  overflow-x:hidden;
+}
+button,input,textarea,select {font:inherit}
+button {cursor:pointer}
+a {color:inherit;text-decoration:none}
+img {display:block;width:100%}
+[hidden] {display:none!important}
+:focus-visible {
+  outline:3px solid var(--red);
+  outline-offset:4px;
+}
+::selection {background:var(--red);color:white}
+.container {
+  width:min(calc(100% - 72px),1380px);
+  margin:auto;
+}
+.rule {
+  height:1px;
+  background:var(--rule);
+}
+.overline {
+  font-size:10px;
+  text-transform:uppercase;
+  font-weight:700;
+  letter-spacing:.23em;
+}
+.section {padding:115px 0}
+.section-title {
+  font:500 clamp(54px,6.3vw,100px)/.94 var(--serif);
+  letter-spacing:-.035em;
+  margin:0;
+}
+.section-title em {
+  font-weight:400;
+  color:var(--red);
+}
+.ink-title {
+  font:500 clamp(60px,7.5vw,120px)/.9 var(--serif);
+  letter-spacing:-.045em;
+  margin:0;
+}
+.text-muted {
+  color:var(--sub);
+  line-height:1.9;
+  font-size:15px;
+}
+.link-line {
+  display:inline-flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:55px;
+  padding:0 0 13px;
+  border-bottom:1px solid currentColor;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  transition:color .25s;
+}
+.link-line:hover {color:var(--red)}
+.reveal {
+  opacity:0;
+  transform:translateY(22px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.reveal.visible {opacity:1;transform:none}
+
+/* HEADER */
+.header {
+  position:fixed;
+  z-index:100;
+  top:0;left:0;right:0;
+  background:rgba(241,236,223,.97);
+  border-bottom:1px solid var(--rule);
+  backdrop-filter:blur(15px);
+}
+.nav {
+  height:83px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
+}
+.brand {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-shrink:0;
+}
+.brand-seal {
+  display:grid;
+  place-items:center;
+  width:42px;height:42px;
+  background:var(--red);
+  color:var(--paper);
+  font:24px var(--jp);
+}
+.brand-name {
+  font:600 26px/.9 var(--serif);
+  letter-spacing:.15em;
+}
+.brand-sub {
+  display:block;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.15em;
+  margin-top:5px;
+}
+.nav-links {
+  display:flex;
+  align-items:center;
+  gap:37px;
+}
+.nav-links a {
+  font-size:12px;
+  font-weight:600;
+  transition:color .2s;
+}
+.nav-links a:hover {color:var(--red)}
+.nav-book {
+  display:flex;
+  align-items:center;
+  gap:30px;
+  font-size:12px;
+  font-weight:700;
+  border-bottom:1px solid var(--ink);
+  padding:13px 0;
+}
+.nav-book:hover {color:var(--red);border-color:var(--red)}
+.menu-btn {
+  display:none;
+  width:43px;height:43px;
+  color:var(--ink);
+  background:transparent;
+  border:1px solid var(--rule);
+  font-size:24px;
+}
+
+/* HERO: PHOTO / WASHI PAPER */
+.hero {
+  margin-top:83px;
+  min-height:min(800px,calc(100svh - 83px));
+  display:grid;
+  grid-template-columns:53% 47%;
+}
+.hero-photo {
+  position:relative;
+  min-height:680px;
+  overflow:hidden;
+  background:#31404a;
+}
+.hero-photo:before {
+  content:"龍";
+  position:absolute;
+  z-index:0;
+  inset:0;
+  display:grid;
+  place-items:center;
+  font:260px var(--jp);
+  color:rgba(255,255,255,.10);
+}
+.hero-photo img {
+  position:absolute;
+  inset:0;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  filter:saturate(.86);
+}
+.hero-photo:after {
+  content:"";
+  position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(16,32,45,.55),transparent 45%);
+  pointer-events:none;
+}
+.hero-photo-side {
+  position:absolute;
+  z-index:2;
+  left:31px;
+  top:36px;
+  writing-mode:vertical-rl;
+  color:#fff5e5;
+  font:600 22px var(--jp);
+  letter-spacing:.35em;
+  text-shadow:0 2px 15px #0008;
+}
+.hero-photo-index {
+  position:absolute;
+  z-index:2;
+  bottom:38px;
+  left:40px;
+  color:white;
+  font-size:10px;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+}
+.hero-art {
+  position:relative;
+  min-height:680px;
+  padding:95px clamp(40px,6vw,115px) 65px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  isolation:isolate;
+  overflow:hidden;
+}
+.hero-art:before {
+  content:"";
+  position:absolute;
+  width:440px;height:440px;
+  border:1px solid rgba(170,72,56,.23);
+  border-radius:50%;
+  top:8%;right:-20%;
+  z-index:-1;
+}
+.hero-art:after {
+  content:"";
+  position:absolute;
+  width:320px;height:320px;
+  border-radius:50%;
+  background:rgba(170,72,56,.055);
+  top:14%;right:-12%;
+  z-index:-1;
+}
+.hero-kana {
+  position:absolute;
+  right:22px;
+  top:35px;
+  font:600 70px var(--jp);
+  color:rgba(170,72,56,.12);
+}
+.hero-title {
+  position:relative;
+  z-index:2;
+  font:500 clamp(75px,7.1vw,116px)/.85 var(--serif);
+  letter-spacing:-.055em;
+  margin:0 0 32px;
+}
+.hero-title em {
+  display:block;
+  font-weight:400;
+  color:var(--red);
+}
+.hero-description {
+  max-width:420px;
+  margin:0 0 38px;
+  font-size:16px;
+  line-height:1.9;
+  color:#5c6464;
+}
+.hero-links {
+  display:flex;
+  align-items:center;
+  gap:36px;
+  flex-wrap:wrap;
+}
+.hero-scroll {
+  font-size:11px;
+  color:var(--sub);
+  letter-spacing:.08em;
+}
+.hero-hanko {
+  position:absolute;
+  right:45px;
+  bottom:40px;
+  width:57px;height:57px;
+  display:grid;
+  place-items:center;
+  color:var(--red);
+  border:2px solid var(--red);
+  font:26px var(--jp);
+  transform:rotate(-10deg);
+}
+
+/* STATIC BRAND LEDGER */
+.identity-line {
+  background:var(--ink);
+  color:var(--paper);
+}
+.identity-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+}
+.identity-grid div {
+  padding:26px 28px;
+  border-right:1px solid rgba(255,255,255,.18);
+  display:flex;
+  gap:20px;
+  align-items:center;
+}
+.identity-grid div:last-child {border-right:0}
+.identity-grid strong {
+  font:31px var(--jp);
+  color:#c7a789;
+}
+.identity-grid span {
+  font-size:11px;
+  letter-spacing:.04em;
+  line-height:1.65;
+}
+
+/* MANIFESTO: NO REPEATED CARDS */
+.intro {
+  background:var(--paper);
+}
+.intro-head {
+  display:grid;
+  grid-template-columns:.42fr 1.58fr;
+  gap:65px;
+}
+.intro-aside {
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  padding-top:13px;
+}
+.intro h2 {
+  font:500 clamp(51px,6.7vw,105px)/.96 var(--serif);
+  letter-spacing:-.045em;
+  margin:0 0 55px;
+  max-width:1020px;
+}
+.intro h2 em {color:var(--red)}
+.intro-bottom {
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  gap:70px;
+  border-top:1px solid var(--rule);
+  padding-top:30px;
+}
+.intro-bottom .first {
+  font:500 30px/1.2 var(--serif);
+}
+.intro-bottom p:not(.first) {
+  font-size:15px;
+  line-height:1.85;
+  color:var(--sub);
+}
+
+/* GALLERY: ASYMMETRIC EXHIBITION */
+.works {
+  background:var(--paper-light);
+}
+.works-top {
+  display:grid;
+  grid-template-columns:1fr .7fr;
+  gap:45px;
+  align-items:end;
+  padding-bottom:55px;
+}
+.works-top p {
+  max-width:430px;
+  margin:0 0 5px auto;
+  line-height:1.85;
+  color:var(--sub);
+}
+.works .overline {
+  color:var(--red);
+  margin-bottom:20px;
+}
+.gallery {
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  grid-auto-rows:190px;
+  gap:15px;
+}
+.gallery-item {
+  display:block;
+  position:relative;
+  overflow:hidden;
+  border:0;
+  padding:0;
+  background:#35424a;
+  color:white;
+  text-align:left;
+}
+.gallery-item:nth-child(1) {
+  grid-column:span 5;
+  grid-row:span 4;
+}
+.gallery-item:nth-child(2) {
+  grid-column:span 4;
+  grid-row:span 2;
+}
+.gallery-item:nth-child(3) {
+  grid-column:span 3;
+  grid-row:span 2;
+}
+.gallery-item:nth-child(4) {
+  grid-column:span 3;
+  grid-row:span 2;
+}
+.gallery-item:nth-child(5) {
+  grid-column:span 4;
+  grid-row:span 2;
+}
+.gallery-item:before {
+  content:"刺青";
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:#ffffff20;
+  font:80px var(--jp);
+}
+.gallery-item img {
+  position:absolute;
+  inset:0;
+  height:100%;
+  object-fit:cover;
+  transition:transform .65s ease;
+}
+.gallery-item:hover img {transform:scale(1.06)}
+.gallery-item:after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(0deg,rgba(8,21,30,.75),transparent 43%);
+  pointer-events:none;
+}
+.gallery-label {
+  position:absolute;
+  bottom:22px;
+  left:23px;right:23px;
+  z-index:2;
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:15px;
+}
+.gallery-label strong {
+  display:block;
+  font:500 34px/.95 var(--serif);
+}
+.gallery-label small {
+  display:block;
+  margin-bottom:8px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-size:9px;
+}
+.gallery-label b {
+  font-weight:400;
+  font-size:22px;
+}
+.gallery-disclaimer {
+  margin:26px 0 0;
+  color:#78807a;
+  font-size:11px;
+  line-height:1.7;
+}
+
+/* MOTIFS - IMMERSIVE INTERACTION */
+.motifs {
+  padding:130px 0;
+  background:var(--ink);
+  color:var(--paper);
+  overflow:hidden;
+}
+.motifs-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:30px;
+  padding-bottom:55px;
+}
+.motifs-top .overline {color:#c8a78a}
+.motifs-top p {
+  max-width:390px;
+  color:#aeb8be;
+  line-height:1.8;
+}
+.motif-interactive {
+  border-top:1px solid rgba(255,255,255,.2);
+  display:grid;
+  grid-template-columns:.73fr 1.27fr;
+  min-height:580px;
+}
+.motif-tabs {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border-right:1px solid rgba(255,255,255,.2);
+}
+.motif-tab {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
+  padding:28px 24px 28px 0;
+  background:transparent;
+  border-bottom:1px solid rgba(255,255,255,.15);
+  color:#9daeb8;
+  text-align:left;
+  transition:color .2s,padding .2s;
+}
+.motif-tab:hover,.motif-tab[aria-pressed="true"] {
+  color:#fff3e2;
+  padding-left:12px;
+}
+.motif-tab[aria-pressed="true"] {
+  border-bottom-color:var(--red);
+}
+.motif-tab strong {
+  font:500 clamp(33px,4vw,54px) var(--serif);
+}
+.motif-tab span {
+  font:21px var(--jp);
+  color:#c69a7e;
+}
+.motif-stage {
+  position:relative;
+  min-height:580px;
+  display:flex;
+  align-items:end;
+  overflow:hidden;
+  padding:65px clamp(40px,7vw,110px);
+  isolation:isolate;
+}
+.motif-circle {
+  position:absolute;
+  width:min(36vw,410px);
+  aspect-ratio:1;
+  top:52px;right:12%;
+  background:#ad4839;
+  border-radius:50%;
+  z-index:-2;
+  opacity:.89;
+}
+.motif-kanji {
+  position:absolute;
+  font:500 clamp(220px,26vw,390px)/1 var(--jp);
+  color:#e7ddc9;
+  right:16%;
+  top:65px;
+  z-index:-1;
+  opacity:.86;
+  transition:opacity .3s;
+}
+.wave-decoration {
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:260px;
+  width:100%;
+  opacity:.25;
+  pointer-events:none;
+}
+.motif-description {
+  position:relative;
+  z-index:2;
+  max-width:430px;
+}
+.motif-description .overline {
+  color:#c5a387;
+  margin-bottom:10px;
+}
+.motif-description h3 {
+  font:500 65px/.9 var(--serif);
+  margin:0 0 20px;
+}
+.motif-description p {
+  color:#d1d7d6;
+  line-height:1.8;
+  font-size:15px;
+}
+
+/* FULL-BLEED INTERLUDE */
+.atelier-shot {
+  height:min(750px,85svh);
+  min-height:470px;
+  position:relative;
+  overflow:hidden;
+  background:#334044;
+}
+.atelier-shot img {
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center 55%;
+  filter:saturate(.75);
+}
+.atelier-shot:after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,rgba(13,28,41,.82),rgba(13,28,41,.08));
+}
+.atelier-shot-inner {
+  position:absolute;
+  z-index:2;
+  left:max(36px,calc((100% - 1380px)/2));
+  bottom:70px;
+  color:#f4eee0;
+}
+.atelier-shot-inner h2 {
+  font:500 clamp(62px,8vw,126px)/.9 var(--serif);
+  margin:0 0 20px;
+}
+.atelier-shot-inner h2 em {
+  color:#e7b9a8;
+}
+.atelier-shot-inner p {
+  max-width:500px;
+  line-height:1.85;
+  color:#e4e1d9;
+}
+
+/* PROCESS - EDITORIAL TIMELINE */
+.process {background:var(--paper)}
+.process-grid {
+  display:grid;
+  grid-template-columns:.88fr 1.12fr;
+  gap:100px;
+}
+.process-left {
+  position:sticky;
+  top:125px;
+  align-self:start;
+}
+.process-left .overline {color:var(--red);margin-bottom:25px}
+.process-left .section-title {margin-bottom:33px}
+.process-left p {max-width:380px}
+.process-list {
+  border-top:1px solid var(--rule);
+}
+.process-step {
+  display:grid;
+  grid-template-columns:55px 1fr;
+  gap:20px;
+  padding:32px 0;
+  border-bottom:1px solid var(--rule);
+}
+.process-number {
+  color:var(--red);
+  font:500 28px var(--serif);
+}
+.process-step h3 {
+  font:500 36px/.95 var(--serif);
+  margin:0 0 12px;
+}
+.process-step p {
+  max-width:550px;
+  color:var(--sub);
+  font-size:14px;
+  line-height:1.85;
+  margin:0;
+}
+.process-note {
+  margin-top:35px;
+  padding:25px;
+  border-left:3px solid var(--red);
+  background:#e9e1d3;
+  font-size:13px;
+  line-height:1.8;
+  color:#505c61;
+}
+
+/* BOOKING: INDIGO + PAPER */
+.booking {
+  background:var(--ink-deep);
+  padding:135px 0;
+  color:var(--paper);
+  position:relative;
+}
+.booking:before {
+  content:"霞";
+  position:absolute;
+  left:-40px;bottom:20px;
+  font:400 400px var(--jp);
+  color:#fff;
+  opacity:.025;
+  pointer-events:none;
+}
+.booking-grid {
+  position:relative;
+  display:grid;
+  grid-template-columns:.86fr 1.14fr;
+  gap:85px;
+}
+.booking-copy .overline {color:#d7ad90}
+.booking-copy h2 {
+  margin:27px 0 30px;
+  font:500 clamp(62px,7vw,112px)/.87 var(--serif);
+}
+.booking-copy h2 em {color:#dcb2a0}
+.booking-copy p {
+  color:#b3bec3;
+  max-width:410px;
+  line-height:1.9;
+}
+.booking-aside {
+  margin-top:52px;
+  border-top:1px solid #ffffff30;
+}
+.booking-aside div {
+  display:flex;
+  gap:30px;
+  justify-content:space-between;
+  border-bottom:1px solid #ffffff30;
+  padding:18px 0;
+  font-size:12px;
+}
+.booking-aside span {color:#adb9bf}
+.booking-form {
+  padding:45px;
+  background:var(--paper-light);
+  color:var(--ink);
+}
+.booking-form h3 {
+  font:500 43px/.95 var(--serif);
+  margin:0 0 32px;
+}
+.form-row {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:17px;
+}
+.field {margin-bottom:22px}
+.field label {
+  display:block;
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:9px;
+  letter-spacing:.06em;
+}
+.field input,.field select,.field textarea {
+  width:100%;
+  padding:15px;
+  border:1px solid #d4ccbd;
+  background:#fffdf7;
+  color:var(--ink);
+  border-radius:0;
+  outline:none;
+}
+.field textarea {
+  min-height:100px;
+  resize:vertical;
+}
+.field input:focus,.field select:focus,.field textarea:focus {
+  border-color:var(--red);
+}
+.submit-btn {
+  display:flex;
+  width:100%;
+  min-height:58px;
+  padding:0 21px;
+  align-items:center;
+  justify-content:space-between;
+  border:0;
+  background:var(--red);
+  color:white;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.08em;
+  transition:background .25s;
+}
+.submit-btn:hover {background:var(--red-deep)}
+.form-note {
+  font-size:11px;
+  color:#777d78;
+  line-height:1.7;
+  margin:17px 0 0;
+}
+
+/* FOOTER */
+.footer {
+  padding:75px 0 30px;
+  background:var(--paper);
+}
+.footer-top {
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:60px;
+  padding-bottom:95px;
+}
+.footer-top p {
+  color:var(--sub);
+  max-width:420px;
+  font-size:14px;
+  line-height:1.85;
+  margin-top:23px;
+}
+.footer-menu {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:17px;
+  align-content:start;
+  font-size:13px;
+}
+.footer-menu a:hover {color:var(--red)}
+.footer-word {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  padding:20px 0;
+}
+.footer-word strong {
+  font:500 clamp(90px,19vw,270px)/.72 var(--serif);
+  letter-spacing:-.07em;
+}
+.footer-word span {
+  font:clamp(55px,9vw,125px) var(--jp);
+  color:var(--red);
+}
+.footer-bottom {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+  padding-top:26px;
+  color:var(--sub);
+  font-size:11px;
+}
+
+/* LIGHTBOX */
+.lightbox {
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:rgba(10,21,30,.97);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:70px 30px 35px;
+}
+.lightbox img {
+  width:auto;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+}
+.lightbox-close {
+  position:absolute;
+  right:30px;top:25px;
+  width:46px;height:46px;
+  border:1px solid #ffffff60;
+  background:transparent;
+  color:white;
+  font-size:28px;
+}
+.lightbox-caption {
+  position:absolute;
+  bottom:10px;
+  color:#d4cfc4;
+  font-size:11px;
+  letter-spacing:.07em;
+}
+body.modal-open {overflow:hidden}
+
+/* MOBILE */
+@media(max-width:1100px) {
+  .nav-links {gap:20px}
+  .hero-art {padding:65px 45px}
+  .hero-title {font-size:clamp(65px,7vw,98px)}
+  .gallery {grid-auto-rows:155px}
+  .motif-stage {padding:55px 45px}
+  .process-grid {gap:45px}
+}
+@media(max-width:850px) {
+  .container {width:calc(100% - 42px)}
+  .nav-book {display:none}
+  .menu-btn {display:block}
+  .nav-links {
+    display:none;
+    position:absolute;
+    top:83px;
+    left:0;right:0;
+    flex-direction:column;
+    align-items:stretch;
+    background:var(--paper);
+    padding:20px 28px 30px;
+    border-bottom:1px solid var(--rule);
+  }
+  .header.open .nav-links {display:flex}
+  .nav-links a {padding:10px}
+  .hero {grid-template-columns:1fr 1fr}
+  .hero-art {padding:48px 30px}
+  .hero-title {font-size:64px}
+  .hero-description {font-size:14px}
+  .hero-photo,.hero-art {min-height:590px}
+  .identity-grid div {padding:18px}
+  .intro-head {grid-template-columns:1fr;gap:25px}
+  .works-top {grid-template-columns:1fr}
+  .works-top p {margin:0}
+  .motif-interactive {grid-template-columns:1fr}
+  .motif-tabs {
+    border-right:0;
+    flex-direction:row;
+  }
+  .motif-tab {
+    flex:1;
+    padding:22px 10px;
+  }
+  .motif-tab strong {font-size:32px}
+  .motif-stage {min-height:500px}
+  .process-grid {grid-template-columns:1fr}
+  .process-left {position:static}
+  .booking-grid {grid-template-columns:1fr;gap:50px}
+}
+@media(max-width:600px) {
+  .container {width:calc(100% - 34px)}
+  .section {padding:80px 0}
+  .hero {grid-template-columns:1fr}
+  .hero-photo {
+    min-height:470px;
+    height:55svh;
+    max-height:600px;
+  }
+  .hero-art {
+    min-height:500px;
+    padding:70px 26px 65px;
+  }
+  .hero-title {font-size:clamp(73px,15vw,99px)}
+  .hero-description {max-width:360px}
+  .hero-hanko {right:24px;bottom:20px}
+  .identity-grid {grid-template-columns:1fr}
+  .identity-grid div {
+    border-right:0;
+    border-bottom:1px solid #ffffff30;
+    padding:15px 0;
+  }
+  .intro h2 {font-size:clamp(56px,11vw,84px)}
+  .intro-bottom {grid-template-columns:1fr;gap:14px}
+  .works-top {padding-bottom:32px}
+  .gallery {
+    grid-template-columns:1fr 1fr;
+    grid-auto-rows:180px;
+    gap:10px;
+  }
+  .gallery-item:nth-child(n) {
+    grid-column:span 1;
+    grid-row:span 2;
+  }
+  .gallery-item:first-child {
+    grid-column:span 2;
+    grid-row:span 3;
+  }
+  .gallery-item:last-child {
+    grid-column:span 2;
+    grid-row:span 2;
+  }
+  .gallery-label strong {font-size:26px}
+  .motifs {padding:85px 0}
+  .motifs-top {display:block}
+  .motifs-top p {margin-top:30px}
+  .motif-tab {padding:18px 8px}
+  .motif-tab strong {font-size:27px}
+  .motif-tab span {font-size:15px}
+  .motif-stage {
+    min-height:475px;
+    padding:40px 25px;
+  }
+  .motif-circle {
+    width:280px;
+    right:5%;
+  }
+  .motif-kanji {
+    font-size:225px;
+    top:50px;right:13%;
+  }
+  .motif-description h3 {font-size:53px}
+  .atelier-shot {height:560px}
+  .atelier-shot-inner {
+    left:25px;right:25px;
+    bottom:45px;
+  }
+  .atelier-shot-inner h2 {font-size:69px}
+  .booking {padding:90px 0}
+  .booking-form {padding:26px 19px}
+  .form-row {grid-template-columns:1fr;gap:0}
+  .footer-top {grid-template-columns:1fr;gap:45px;padding-bottom:65px}
+  .footer-bottom {flex-direction:column;align-items:flex-start}
+}
+@media(prefers-reduced-motion:reduce) {
+  html {scroll-behavior:auto}
+  *,*::before,*::after {
+    transition-duration:.01ms!important;
+    animation-duration:.01ms!important;
+  }
+  .reveal {opacity:1;transform:none}
+}
+</style>
 </head>
+
 <body>
 
-  <!-- =====================================================
-       HEADER
-  ====================================================== -->
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="container nav">
+    <a class="brand" href="#inicio" aria-label="KASUMI, inicio">
+      <span class="brand-seal">霞</span>
+      <span>
+        <strong class="brand-name">KASUMI</strong>
+        <span class="brand-sub">JAPANESE TATTOO ATELIER</span>
+      </span>
+    </a>
 
-  <header id="header">
-    <div class="container nav">
+    <nav class="nav-links" id="navLinks" aria-label="Navegación">
+      <a href="#filosofia">Filosofía</a>
+      <a href="#obras">Inspiración</a>
+      <a href="#simbolos">Simbología</a>
+      <a href="#proceso">El proceso</a>
+      <a href="#reserva">Reservas</a>
+    </nav>
 
-      <a href="#inicio" class="brand">
-        <span class="brand-mark">R</span>
-        <div>
-          <div class="brand-name">RITO INK</div>
-          <span class="brand-sub">Tattoo studio</span>
-        </div>
-      </a>
+    <a class="nav-book" href="#reserva">
+      Consultar proyecto <span>↗</span>
+    </a>
 
-      <nav id="nav">
-        <ul>
-          <li><a href="#inicio">Inicio</a></li>
-          <li><a href="#estilos">Estilos</a></li>
-          <li><a href="#trabajos">Trabajos</a></li>
-          <li><a href="#proceso">Proceso</a></li>
-          <li><a href="#reserva">Reserva</a></li>
-        </ul>
-      </nav>
+    <button class="menu-btn" id="menuBtn"
+      aria-controls="navLinks"
+      aria-expanded="false"
+      aria-label="Abrir menú">☰</button>
+  </div>
+</header>
 
-      <a href="#reserva" class="nav-cta">Reservar cita</a>
+<main>
 
-      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+<!-- HERO -->
+<section class="hero" id="inicio">
 
-    </div>
-  </header>
-
-
-  <!-- =====================================================
-       HERO
-  ====================================================== -->
-
-  <section class="hero" id="inicio">
-    <div class="container hero-layout">
-
-      <div class="hero-copy reveal">
-
-        <div class="eyebrow">Tatuajes de autor · diseño personalizado</div>
-
-        <h1 class="hero-title">
-          TINTA CON
-          <span>CARÁCTER.</span>
-        </h1>
-
-        <p class="hero-text">
-          Un estudio de tatuajes con identidad propia,
-          pensado para piezas que se sientan personales,
-          potentes y hechas para durar. Blackwork,
-          fine line, ornamental y diseños custom.
-        </p>
-
-        <div class="hero-actions">
-          <a href="#reserva" class="btn btn-primary">
-            Reservar sesión
-            <span>↗</span>
-          </a>
-
-          <a href="#trabajos" class="btn btn-outline">
-            Ver portafolio
-          </a>
-        </div>
-
-        <div class="hero-tags">
-          <span>Blackwork</span>
-          <span>Fine line</span>
-          <span>Ornamental</span>
-          <span>Custom</span>
-        </div>
-
-      </div>
-
-
-
-      <div class="hero-visual reveal">
-
-        <div class="hero-main-image">
-          <img
-            src="https://images.unsplash.com/photo-1562962230-16e4623d36e6?auto=format&fit=crop&w=1200&q=90"
-            alt="Tatuador trabajando"
-          />
-        </div>
-
-        <div class="hero-side-image">
-          <img
-            src="https://images.unsplash.com/photo-1542727365-19732a80dcfd?auto=format&fit=crop&w=900&q=90"
-            alt="Brazo con tatuajes"
-          />
-        </div>
-
-        <div class="hero-card">
-          <small>Booking abierto</small>
-          <strong>Piezas únicas.<br>Sin copiar.</strong>
-          <p>
-            Cada diseño se construye según tu idea,
-            tu cuerpo y la estética del estudio.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- =====================================================
-       STRIP
-  ====================================================== -->
-
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <div class="marquee-set">
-        BLACKWORK <i></i> FINE LINE <i></i> ORNAMENTAL <i></i> CUSTOM DESIGN <i></i> TATTOO STUDIO <i></i>
-      </div>
-      <div class="marquee-set">
-        BLACKWORK <i></i> FINE LINE <i></i> ORNAMENTAL <i></i> CUSTOM DESIGN <i></i> TATTOO STUDIO <i></i>
-      </div>
-    </div>
+  <div class="hero-photo">
+    <img
+      src="https://images.pexels.com/photos/2134085/pexels-photo-2134085.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1500"
+      alt="Detalle de tatuaje de inspiración japonesa"
+      fetchpriority="high">
+    <span class="hero-photo-side">日本の刺青</span>
+    <span class="hero-photo-index">
+      KASUMI / HORIMONO / INSPIRACIÓN
+    </span>
   </div>
 
+  <div class="hero-art">
+    <span class="hero-kana" aria-hidden="true">霞</span>
 
-  <!-- =====================================================
-       MANIFESTO
-  ====================================================== -->
+    <h1 class="hero-title">
+      El arte<br>
+      que sigue<br>
+      <em>tu piel.</em>
+    </h1>
 
-  <section class="section manifesto">
+    <p class="hero-description">
+      Un estudio imaginado alrededor del tatuaje
+      japonés: composición, simbolismo y una
+      conexión entre la imagen y el cuerpo.
+    </p>
 
-    <div class="container manifesto-grid">
-
-      <div class="manifesto-visual reveal">
-        <img
-          src="https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?auto=format&fit=crop&w=1000&q=90"
-          alt="Diseño de tatuaje"
-          loading="lazy"
-        />
-        <div class="manifesto-note">
-          RITO INK / ESTUDIO DEMOSTRATIVO / HECHO PARA MOSTRAR ESTILO Y PRESENCIA VISUAL
-        </div>
-      </div>
-
-      <div class="manifesto-copy reveal">
-
-        <div class="eyebrow">La idea del estudio</div>
-
-        <h2>
-          NO HACEMOS SOLO
-          <span>TATUAJES.</span>
-          HACEMOS PIEZAS
-          CON PESO VISUAL.
-        </h2>
-
-        <div class="manifesto-columns">
-          <p>
-            Un buen tatuaje no es solo una imagen bonita.
-            También es composición, intención y presencia.
-          </p>
-
-          <p>
-            El enfoque del estudio es trabajar con calma el diseño,
-            respetar la anatomía del cuerpo y crear piezas con una
-            estética coherente. La meta no es llenar espacio: es
-            que el tatuaje se sienta correcto, fuerte y tuyo.
-          </p>
-        </div>
-
-      </div>
-
+    <div class="hero-links">
+      <a href="#reserva" class="link-line">
+        Diseñar mi pieza <span>↗</span>
+      </a>
+      <a href="#obras" class="hero-scroll">
+        Explorar el arte ↓
+      </a>
     </div>
 
-  </section>
+    <span class="hero-hanko" aria-hidden="true">墨</span>
+  </div>
 
+</section>
 
-  <!-- =====================================================
-       STYLES
-  ====================================================== -->
+<!-- STATIC IDENTITY -->
+<div class="identity-line">
+  <div class="container identity-grid">
+    <div><strong>彫物</strong><span>HORIMONO<br>TATUAJE COMO COMPOSICIÓN</span></div>
+    <div><strong>和</strong><span>ARMONÍA<br>TRADICIÓN Y EQUILIBRIO</span></div>
+    <div><strong>墨</strong><span>TINTA<br>OFICIO Y EXPRESIÓN</span></div>
+  </div>
+</div>
 
-  <section class="section styles" id="estilos">
+<!-- PHILOSOPHY -->
+<section class="section intro" id="filosofia">
+  <div class="container intro-head">
 
-    <div class="container">
+    <div class="intro-aside reveal">
+      01 — UNA FILOSOFÍA
+    </div>
 
-      <div class="styles-head">
+    <div class="reveal">
+      <h2>
+        No se trata de llenar
+        un espacio.
+        Se trata de crear
+        una <em>composición.</em>
+      </h2>
 
-        <div class="reveal">
-          <div class="eyebrow">Estilos del estudio</div>
-          <h2 class="display">
-            CADA IDEA
-            <span>TIENE SU LENGUAJE.</span>
-          </h2>
-        </div>
-
-        <p class="lead reveal">
-          Explora algunos enfoques visuales del estudio.
-          Cada uno transmite algo distinto y se adapta a
-          diferentes tipos de piezas.
+      <div class="intro-bottom">
+        <p class="first">
+          Una pieza debe dialogar
+          con las formas del cuerpo.
         </p>
-
-      </div>
-
-
-      <div class="styles-layout">
-
-        <div class="style-preview reveal">
-          <img
-            id="stylePreviewImage"
-            src="https://images.unsplash.com/photo-1590246814883-f7b2d7c0cc62?auto=format&fit=crop&w=1200&q=90"
-            alt="Tatuaje blackwork"
-          />
-          <div class="style-preview-caption">
-            <small id="stylePreviewLabel">Estilo destacado</small>
-            <strong id="stylePreviewTitle">Blackwork</strong>
-          </div>
-        </div>
-
-
-        <div class="styles-list">
-
-          <div class="style-item active reveal"
-            data-title="Blackwork"
-            data-label="Estilo destacado"
-            data-image="https://images.unsplash.com/photo-1590246814883-f7b2d7c0cc62?auto=format&fit=crop&w=1200&q=90">
-
-            <button class="style-trigger" type="button" aria-expanded="true">
-              <h3>Blackwork</h3>
-              <span>+</span>
-            </button>
-
-            <div class="style-detail">
-              <p>
-                Trazos sólidos, contraste fuerte y un lenguaje visual
-                más oscuro y contundente. Ideal para piezas con presencia
-                y lectura clara.
-              </p>
-            </div>
-
-          </div>
-
-          <div class="style-item reveal"
-            data-title="Fine Line"
-            data-label="Estilo destacado"
-            data-image="https://images.unsplash.com/photo-1611270629569-8b357cb88da9?auto=format&fit=crop&w=1200&q=90">
-
-            <button class="style-trigger" type="button" aria-expanded="false">
-              <h3>Fine line</h3>
-              <span>+</span>
-            </button>
-
-            <div class="style-detail">
-              <p>
-                Líneas delicadas, detalles más finos y una estética limpia.
-                Muy usado en tatuajes sutiles, botánicos, simbólicos o más elegantes.
-              </p>
-            </div>
-
-          </div>
-
-          <div class="style-item reveal"
-            data-title="Ornamental"
-            data-label="Estilo destacado"
-            data-image="https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?auto=format&fit=crop&w=1200&q=90">
-
-            <button class="style-trigger" type="button" aria-expanded="false">
-              <h3>Ornamental</h3>
-              <span>+</span>
-            </button>
-
-            <div class="style-detail">
-              <p>
-                Composición decorativa, simetría y flujo visual pensado
-                para dialogar con la forma del cuerpo. Perfecto para piezas más rituales o estéticas.
-              </p>
-            </div>
-
-          </div>
-
-          <div class="style-item reveal"
-            data-title="Custom design"
-            data-label="Estilo destacado"
-            data-image="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1200&q=90">
-
-            <button class="style-trigger" type="button" aria-expanded="false">
-              <h3>Custom design</h3>
-              <span>+</span>
-            </button>
-
-            <div class="style-detail">
-              <p>
-                Diseños hechos desde cero, desarrollados a partir de una idea,
-                un concepto o una referencia, buscando un resultado único y personal.
-              </p>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       PORTFOLIO
-  ====================================================== -->
-
-  <section class="section portfolio" id="trabajos">
-
-    <div class="container">
-
-      <div class="portfolio-head">
-
-        <div class="reveal">
-          <div class="eyebrow">Portafolio de muestra</div>
-          <h2 class="display">
-            TATUAJES
-            <span>CON PRESENCIA.</span>
-          </h2>
-        </div>
-
-        <p class="lead reveal">
-          Una composición visual más tipo editorial que portafolio clásico,
-          para que la web tenga alma propia y no se sienta genérica.
-        </p>
-
-      </div>
-
-
-      <div class="portfolio-grid">
-
-        <article class="folio-card reveal">
-          <img
-            src="https://images.unsplash.com/photo-1542727365-19732a80dcfd?auto=format&fit=crop&w=1200&q=90"
-            alt="Tatuaje en brazo"
-            loading="lazy"
-          />
-          <div class="folio-info">
-            <small>Blackwork</small>
-            <h3>Stroke Ritual</h3>
-          </div>
-        </article>
-
-        <article class="folio-card reveal">
-          <img
-            src="https://images.unsplash.com/photo-1543059080-f9b1272213d5?auto=format&fit=crop&w=1000&q=90"
-            alt="Tatuaje pequeño"
-            loading="lazy"
-          />
-          <div class="folio-info">
-            <small>Fine line</small>
-            <h3>Quiet Mark</h3>
-          </div>
-        </article>
-
-        <article class="folio-card reveal">
-          <img
-            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=90"
-            alt="Detalle artístico"
-            loading="lazy"
-          />
-          <div class="folio-info">
-            <small>Custom</small>
-            <h3>Skin Story</h3>
-          </div>
-        </article>
-
-        <article class="folio-card reveal">
-          <img
-            src="https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=1400&q=90"
-            alt="Diseño ornamental"
-            loading="lazy"
-          />
-          <div class="folio-info">
-            <small>Ornamental</small>
-            <h3>Body Pattern</h3>
-          </div>
-        </article>
-
-        <article class="folio-card reveal">
-          <img
-            src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=90"
-            alt="Estilo visual del estudio"
-            loading="lazy"
-          />
-          <div class="folio-info">
-            <small>Visual mood</small>
-            <h3>Studio Aura</h3>
-          </div>
-        </article>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       PROCESS
-  ====================================================== -->
-
-  <section class="section process" id="proceso">
-
-    <div class="container">
-
-      <div class="process-top">
-
-        <div class="reveal">
-          <div class="eyebrow">Cómo trabajamos</div>
-          <h2 class="display">
-            DEL CONCEPTO
-            <span>A LA PIEL.</span>
-          </h2>
-        </div>
-
-        <p class="lead reveal">
-          Un proceso claro transmite profesionalismo:
-          idea, diseño, ajuste y tatuaje. Así la experiencia
-          se siente mejor cuidada.
-        </p>
-
-      </div>
-
-
-      <div class="steps">
-
-        <article class="step reveal">
-          <div class="step-num">01</div>
-          <h3>Idea</h3>
-          <p>
-            Conversamos sobre la referencia, el significado,
-            el estilo y la ubicación del tatuaje.
-          </p>
-        </article>
-
-        <article class="step reveal">
-          <div class="step-num">02</div>
-          <h3>Diseño</h3>
-          <p>
-            Se desarrolla una propuesta visual alineada
-            con tu idea y con el lenguaje del estudio.
-          </p>
-        </article>
-
-        <article class="step reveal">
-          <div class="step-num">03</div>
-          <h3>Ajuste</h3>
-          <p>
-            Revisamos tamaño, composición y detalles
-            para que el diseño funcione bien en el cuerpo.
-          </p>
-        </article>
-
-        <article class="step reveal">
-          <div class="step-num">04</div>
-          <h3>Sesión</h3>
-          <p>
-            Se realiza el tatuaje con preparación,
-            higiene, calma y foco en el resultado final.
-          </p>
-        </article>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       BOOKING
-  ====================================================== -->
-
-  <section class="section booking" id="reserva">
-
-    <div class="container booking-grid">
-
-      <div class="booking-copy reveal">
-
-        <div class="eyebrow">Reserva tu sesión</div>
-
-        <h2 class="display">
-          HABLEMOS DE
-          <span>TU PRÓXIMA PIEZA.</span>
-        </h2>
-
         <p>
-          Completa el formulario y se abrirá WhatsApp con tu solicitud.
-          Ideal para mostrar una experiencia moderna, directa y fácil para reservar.
+          En el tatuaje japonés tradicional, los motivos,
+          las olas, el viento y los elementos naturales
+          pueden formar parte de un mismo lenguaje visual.
+          La intención de KASUMI es transmitir ese equilibrio:
+          una obra pensada como un conjunto, no como imágenes
+          colocadas al azar.
         </p>
-
-        <div class="booking-list">
-          <div>
-            <span>Estudio</span>
-            <strong>RITO INK / Demo</strong>
-          </div>
-          <div>
-            <span>Especialidades</span>
-            <strong>Blackwork · Fine line · Ornamental</strong>
-          </div>
-          <div>
-            <span>Atención</span>
-            <strong>Con cita previa</strong>
-          </div>
-          <div>
-            <span>Ubicación</span>
-            <strong>Santiago · Chile</strong>
-          </div>
-        </div>
-
       </div>
+    </div>
 
+  </div>
+</section>
 
+<!-- VISUAL GALLERY -->
+<section class="section works" id="obras">
+  <div class="container">
 
-      <form class="booking-form reveal" id="contactForm">
+    <div class="works-top">
+      <div class="reveal">
+        <div class="overline">02 / REFERENCIAS VISUALES</div>
+        <h2 class="section-title">
+          El lenguaje<br>
+          del <em>irezumi.</em>
+        </h2>
+      </div>
+      <p class="reveal">
+        Una pequeña exposición de imágenes para imaginar
+        el carácter artístico del estudio. Haz clic para
+        observar cada fotografía en grande.
+      </p>
+    </div>
 
-        <h3>Solicitar reserva</h3>
+    <div class="gallery">
 
-        <div class="form-row">
+      <button class="gallery-item reveal" type="button"
+        aria-label="Ampliar referencia uno">
+        <img
+          src="https://images.pexels.com/photos/2183131/pexels-photo-2183131.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"
+          alt="Tatuaje de manga con motivos de inspiración japonesa"
+          loading="lazy">
+        <span class="gallery-label">
+          <span><small>Referencia 01</small><strong>Color y movimiento</strong></span>
+          <b>↗</b>
+        </span>
+      </button>
 
-          <div class="field">
-            <label for="nombre">Nombre</label>
-            <input id="nombre" type="text" placeholder="Tu nombre" required />
-          </div>
+      <button class="gallery-item reveal" type="button"
+        aria-label="Ampliar referencia dos">
+        <img
+          src="https://images.pexels.com/photos/2134085/pexels-photo-2134085.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=950"
+          alt="Tatuaje japonés de líneas y colores intensos"
+          loading="lazy">
+        <span class="gallery-label">
+          <span><small>Referencia 02</small><strong>Tradición gráfica</strong></span>
+          <b>↗</b>
+        </span>
+      </button>
 
-          <div class="field">
-            <label for="telefono">WhatsApp</label>
-            <input id="telefono" type="tel" placeholder="+56 9..." required />
-          </div>
+      <button class="gallery-item reveal" type="button"
+        aria-label="Ampliar referencia tres">
+        <img
+          src="https://images.pexels.com/photos/2186982/pexels-photo-2186982.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900"
+          alt="Tatuajes ornamentales a color en las piernas"
+          loading="lazy">
+        <span class="gallery-label">
+          <span><small>Referencia 03</small><strong>Forma y detalle</strong></span>
+          <b>↗</b>
+        </span>
+      </button>
 
-        </div>
+      <button class="gallery-item reveal" type="button"
+        aria-label="Ampliar referencia cuatro">
+        <img
+          src="https://images.pexels.com/photos/2221319/pexels-photo-2221319.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900"
+          alt="Espalda tatuada con diseños coloridos"
+          loading="lazy">
+        <span class="gallery-label">
+          <span><small>Referencia 04</small><strong>Gran formato</strong></span>
+          <b>↗</b>
+        </span>
+      </button>
 
+      <button class="gallery-item reveal" type="button"
+        aria-label="Ampliar referencia cinco">
+        <img
+          src="https://images.pexels.com/photos/2865412/pexels-photo-2865412.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000"
+          alt="Artista realizando un tatuaje en estudio"
+          loading="lazy">
+        <span class="gallery-label">
+          <span><small>Referencia 05</small><strong>El oficio</strong></span>
+          <b>↗</b>
+        </span>
+      </button>
 
-        <div class="form-row">
+    </div>
 
-          <div class="field">
-            <label for="estilo">Estilo</label>
-            <select id="estilo">
-              <option>Blackwork</option>
-              <option>Fine line</option>
-              <option>Ornamental</option>
-              <option>Custom design</option>
-              <option>No estoy seguro/a</option>
-            </select>
-          </div>
+    <p class="gallery-disclaimer">
+      Fotografías referenciales de Pexels. No representan trabajos realizados por KASUMI,
+      que es un estudio ficticio creado para esta demostración.
+    </p>
 
-          <div class="field">
-            <label for="zona">Zona del cuerpo</label>
-            <input id="zona" type="text" placeholder="Ej: antebrazo" />
-          </div>
+  </div>
+</section>
 
-        </div>
+<!-- MOTIF EXPERIENCE -->
+<section class="motifs" id="simbolos">
 
+  <div class="container">
 
-        <div class="field">
-          <label for="mensaje">Idea del tatuaje</label>
-          <textarea id="mensaje" placeholder="Cuéntame tu idea, tamaño aproximado o referencias..."></textarea>
-        </div>
+    <div class="motifs-top">
+      <div class="reveal">
+        <div class="overline">03 / SIMBOLOGÍA</div>
+        <h2 class="ink-title">
+          Historias detrás<br>
+          de los símbolos.
+        </h2>
+      </div>
+      <p class="reveal">
+        Selecciona un motivo para descubrir cómo podría
+        integrarse en una composición de inspiración japonesa.
+      </p>
+    </div>
 
-        <button type="submit" class="btn btn-primary">
-          Enviar por WhatsApp
-          <span>↗</span>
+    <div class="motif-interactive">
+
+      <div class="motif-tabs" aria-label="Seleccionar motivo">
+
+        <button class="motif-tab" type="button"
+          data-motif="koi" aria-pressed="true">
+          <strong>Koi · Carpa</strong><span>鯉</span>
         </button>
 
-        <p class="form-note">
-          Esto es una maqueta demostrativa. Reemplaza el número y los datos por los reales.
-        </p>
+        <button class="motif-tab" type="button"
+          data-motif="ryu" aria-pressed="false">
+          <strong>Ryū · Dragón</strong><span>龍</span>
+        </button>
 
-      </form>
+        <button class="motif-tab" type="button"
+          data-motif="botan" aria-pressed="false">
+          <strong>Botan · Peonía</strong><span>牡丹</span>
+        </button>
 
-    </div>
+      </div>
 
-  </section>
+      <div class="motif-stage">
 
+        <div class="motif-circle"></div>
+        <div class="motif-kanji" id="motifKanji" aria-hidden="true">鯉</div>
 
-  <!-- =====================================================
-       FOOTER
-  ====================================================== -->
+        <!-- Custom wave ornament -->
+        <svg class="wave-decoration"
+          viewBox="0 0 900 260"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          preserveAspectRatio="none">
+          <g fill="none" stroke="#f3e8d5" stroke-width="2">
+            <path d="M-30 210 Q30 145 90 210 T210 210 T330 210 T450 210 T570 210 T690 210 T810 210 T930 210"/>
+            <path d="M-30 180 Q30 115 90 180 T210 180 T330 180 T450 180 T570 180 T690 180 T810 180 T930 180"/>
+            <path d="M-30 150 Q30 85 90 150 T210 150 T330 150 T450 150 T570 150 T690 150 T810 150 T930 150"/>
+            <path d="M-30 120 Q30 55 90 120 T210 120 T330 120 T450 120 T570 120 T690 120 T810 120 T930 120"/>
+            <path d="M-30 90 Q30 25 90 90 T210 90 T330 90 T450 90 T570 90 T690 90 T810 90 T930 90"/>
+          </g>
+        </svg>
 
-  <footer>
-
-    <div class="container">
-
-      <div class="footer-top">
-
-        <div>
-          <a href="#inicio" class="brand">
-            <span class="brand-mark">R</span>
-            <div>
-              <div class="brand-name">RITO INK</div>
-              <span class="brand-sub">Tattoo studio</span>
-            </div>
-          </a>
-
-          <p>
-            Web de muestra para un estudio de tatuajes con una estética más fuerte,
-            artística y memorable que una web comercial común.
+        <div class="motif-description" aria-live="polite">
+          <div class="overline" id="motifNumber">MOTIVO 01 / AGUA</div>
+          <h3 id="motifName">Koi · 鯉</h3>
+          <p id="motifDescription">
+            La carpa koi suele asociarse a perseverancia,
+            esfuerzo y transformación. En una composición
+            puede integrarse con corrientes de agua y
+            elementos estacionales.
           </p>
         </div>
 
-        <div class="footer-links">
-          <a href="#inicio">Inicio</a>
-          <a href="#estilos">Estilos</a>
-          <a href="#trabajos">Trabajos</a>
-          <a href="#proceso">Proceso</a>
-          <a href="#reserva">Reserva</a>
-          <a href="#">Instagram ↗</a>
-        </div>
-
-      </div>
-
-      <div class="footer-word" aria-hidden="true">RITO INK</div>
-
-      <div class="footer-bottom">
-        <span>© 2026 RITO INK — Demo visual</span>
-        <span>Tinta con carácter.</span>
       </div>
 
     </div>
 
-  </footer>
+  </div>
 
+</section>
 
-  <!-- =====================================================
-       WHATSAPP
-  ====================================================== -->
+<!-- IMAGE INTERLUDE -->
+<section class="atelier-shot">
+  <img
+    src="https://images.pexels.com/photos/17208136/pexels-photo-17208136.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1800"
+    alt="Artista tatuando en un estudio"
+    loading="lazy">
 
-  <a
-    href="https://wa.me/56912345678?text=Hola%20RITO%20INK%2C%20quiero%20consultar%20por%20una%20reserva"
-    target="_blank"
-    rel="noopener"
-    class="whatsapp"
-    aria-label="WhatsApp"
-  >
-    <svg viewBox="0 0 32 32">
-      <path d="M19.11 17.43c-.28-.14-1.65-.81-1.9-.9-.26-.1-.44-.14-.63.14-.19.28-.72.9-.88 1.09-.16.19-.33.21-.61.07-.28-.14-1.18-.43-2.25-1.39-.83-.74-1.4-1.66-1.56-1.94-.16-.28-.02-.43.12-.57.13-.13.28-.33.42-.49.14-.16.19-.28.28-.47.09-.19.05-.35-.02-.49-.07-.14-.63-1.51-.86-2.07-.23-.54-.46-.47-.63-.48h-.54c-.19 0-.49.07-.75.35-.26.28-.98.96-.98 2.34 0 1.37 1 2.7 1.14 2.88.14.19 1.97 3.01 4.77 4.22.67.29 1.19.46 1.59.59.67.21 1.28.18 1.76.11.54-.08 1.65-.68 1.88-1.33.23-.65.23-1.21.16-1.33-.07-.11-.26-.18-.54-.32z"/>
-      <path d="M16.03 3C8.85 3 3.03 8.8 3.03 15.96c0 2.28.6 4.51 1.73 6.47L3 29l6.74-1.76a13 13 0 0 0 6.28 1.6h.01c7.18 0 13-5.81 13-12.96C29.03 8.8 23.21 3 16.03 3zm0 23.65h-.01a10.8 10.8 0 0 1-5.5-1.51l-.39-.23-4 1.05 1.07-3.89-.25-.4a10.71 10.71 0 0 1-1.66-5.71c0-5.94 4.83-10.77 10.76-10.77 2.88 0 5.58 1.12 7.61 3.15a10.69 10.69 0 0 1 3.15 7.62c-.02 5.94-4.84 10.77-10.78 10.77z"/>
-    </svg>
-  </a>
+  <div class="atelier-shot-inner reveal">
+    <h2>
+      Del papel<br>
+      <em>a la piel.</em>
+    </h2>
+    <p>
+      El trabajo comienza mucho antes de tatuar:
+      escuchar la idea, estudiar la ubicación
+      y preparar una composición que tenga sentido.
+    </p>
+  </div>
+</section>
 
+<!-- PROCESS -->
+<section class="section process" id="proceso">
 
-  <script>
+  <div class="container process-grid">
 
-    /* =====================================================
-       HEADER
-    ====================================================== */
+    <div class="process-left reveal">
+      <div class="overline">04 / EL PROCESO</div>
+      <h2 class="section-title">
+        Cada pieza<br>
+        merece<br>
+        <em>su tiempo.</em>
+      </h2>
+      <p class="text-muted">
+        Un recorrido transparente desde la idea
+        inicial hasta el tatuaje y sus indicaciones
+        de cuidado.
+      </p>
+    </div>
 
-    const header = document.getElementById("header");
+    <div>
 
-    window.addEventListener("scroll", () => {
-      if(window.scrollY > 40){
-        header.classList.add("scrolled");
-      }else{
-        header.classList.remove("scrolled");
+      <div class="process-list">
+
+        <article class="process-step reveal">
+          <span class="process-number">壱</span>
+          <div>
+            <h3>La conversación</h3>
+            <p>
+              Partimos por tu idea, referencias,
+              significado, ubicación, dimensiones
+              y expectativas del proyecto.
+            </p>
+          </div>
+        </article>
+
+        <article class="process-step reveal">
+          <span class="process-number">弐</span>
+          <div>
+            <h3>El boceto</h3>
+            <p>
+              Desarrollamos una propuesta considerando
+              los motivos elegidos y la forma natural
+              de la zona que será tatuada.
+            </p>
+          </div>
+        </article>
+
+        <article class="process-step reveal">
+          <span class="process-number">参</span>
+          <div>
+            <h3>La composición final</h3>
+            <p>
+              Revisamos escala, dirección, detalles
+              y cómo se integra la pieza con el cuerpo.
+              Los proyectos extensos pueden dividirse
+              en varias sesiones.
+            </p>
+          </div>
+        </article>
+
+        <article class="process-step reveal">
+          <span class="process-number">肆</span>
+          <div>
+            <h3>La sesión y los cuidados</h3>
+            <p>
+              El procedimiento requiere un entorno
+              higiénico, materiales adecuados,
+              instrucciones de cuidado y seguimiento
+              cuando corresponda.
+            </p>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="process-note reveal">
+        Para un estudio real, esta sección debería incluir
+        los protocolos efectivos, credenciales y condiciones
+        de atención, además de los cuidados indicados por
+        el profesional.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- BOOKING -->
+<section class="booking" id="reserva">
+
+  <div class="container booking-grid">
+
+    <div class="booking-copy reveal">
+      <div class="overline">05 / INICIAR UN PROYECTO</div>
+
+      <h2>
+        Tu idea<br>
+        merece<br>
+        <em>una forma.</em>
+      </h2>
+
+      <p>
+        Cuéntanos qué imaginas. El formulario prepara
+        una solicitud de consulta y abre WhatsApp
+        para que puedas enviarla.
+      </p>
+
+      <div class="booking-aside">
+        <div>
+          <span>Especialidad</span>
+          <strong>Inspiración japonesa</strong>
+        </div>
+        <div>
+          <span>Atención</span>
+          <strong>Con consulta previa</strong>
+        </div>
+        <div>
+          <span>Ubicación demostrativa</span>
+          <strong>Chile</strong>
+        </div>
+      </div>
+
+    </div>
+
+    <form class="booking-form reveal" id="bookingForm">
+      <h3>Solicitud de consulta</h3>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="name">Tu nombre</label>
+          <input id="name" type="text" placeholder="Nombre" required>
+        </div>
+
+        <div class="field">
+          <label for="phone">WhatsApp</label>
+          <input id="phone" type="tel" placeholder="+56 9..." required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="motif">Motivo de interés</label>
+          <select id="motif">
+            <option>Koi / Carpa</option>
+            <option>Ryū / Dragón</option>
+            <option>Botan / Peonía</option>
+            <option>Otro motivo japonés</option>
+            <option>Necesito orientación</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="bodyPart">Zona del cuerpo</label>
+          <input id="bodyPart" type="text"
+            placeholder="Ej.: brazo, espalda">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="size">Tamaño aproximado</label>
+        <select id="size">
+          <option>Pequeño</option>
+          <option>Mediano</option>
+          <option>Grande</option>
+          <option>Manga / espalda completa</option>
+          <option>Aún no lo sé</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="idea">Cuéntanos tu idea</label>
+        <textarea id="idea"
+          placeholder="Motivos, referencias, composición o historia que quieres representar..."></textarea>
+      </div>
+
+      <button class="submit-btn" type="submit">
+        SOLICITAR CONSULTA <span>↗</span>
+      </button>
+
+      <p class="form-note">
+        Demostración de formulario. No envía datos a un servidor;
+        solo prepara un mensaje para WhatsApp.
+      </p>
+    </form>
+
+  </div>
+
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+
+  <div class="container">
+
+    <div class="footer-top">
+
+      <div>
+        <a class="brand" href="#inicio">
+          <span class="brand-seal">霞</span>
+          <span>
+            <strong class="brand-name">KASUMI</strong>
+            <span class="brand-sub">JAPANESE TATTOO ATELIER</span>
+          </span>
+        </a>
+        <p>
+          Un concepto de estudio de tatuaje inspirado
+          en el lenguaje visual del irezumi, el equilibrio
+          de la composición y el arte japonés.
+        </p>
+      </div>
+
+      <nav class="footer-menu" aria-label="Enlaces del pie">
+        <a href="#inicio">Inicio</a>
+        <a href="#filosofia">Filosofía</a>
+        <a href="#obras">Referencias visuales</a>
+        <a href="#simbolos">Simbología</a>
+        <a href="#proceso">El proceso</a>
+        <a href="#reserva">Reservas</a>
+      </nav>
+
+    </div>
+
+    <div class="footer-word" aria-hidden="true">
+      <strong>KASUMI</strong>
+      <span>霞</span>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 KASUMI — CONCEPTO DEMOSTRATIVO</span>
+      <span>DISEÑO · TRADICIÓN · COMPOSICIÓN</span>
+    </div>
+
+  </div>
+
+</footer>
+
+<!-- GALLERY LIGHTBOX -->
+<div class="lightbox" id="lightbox"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Fotografía ampliada"
+  hidden>
+
+  <button class="lightbox-close" id="lightboxClose"
+    type="button"
+    aria-label="Cerrar fotografía">×</button>
+
+  <img id="lightboxImage" src="" alt="">
+
+  <span class="lightbox-caption">
+    FOTOGRAFÍA REFERENCIAL — NO ES OBRA DE KASUMI
+  </span>
+
+</div>
+
+<script>
+/* CONFIGURACIÓN DEMO */
+const WHATSAPP="56912345678";
+
+/* MENÚ */
+const header=document.getElementById("header");
+const menuBtn=document.getElementById("menuBtn");
+
+function closeMenu(){
+  header.classList.remove("open");
+  menuBtn.textContent="☰";
+  menuBtn.setAttribute("aria-expanded","false");
+  menuBtn.setAttribute("aria-label","Abrir menú");
+}
+
+menuBtn.addEventListener("click",()=>{
+  const open=header.classList.toggle("open");
+  menuBtn.textContent=open?"×":"☰";
+  menuBtn.setAttribute("aria-expanded",String(open));
+  menuBtn.setAttribute("aria-label",
+    open?"Cerrar menú":"Abrir menú");
+});
+
+document.querySelectorAll(".nav-links a").forEach(link=>{
+  link.addEventListener("click",closeMenu);
+});
+
+/* APARICIONES SUAVES */
+const reduced=matchMedia("(prefers-reduced-motion: reduce)");
+
+if("IntersectionObserver" in window&&!reduced.matches){
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
       }
     });
+  },{threshold:.07});
 
+  document.querySelectorAll(".reveal").forEach(el=>{
+    observer.observe(el);
+  });
+}else{
+  document.querySelectorAll(".reveal").forEach(el=>{
+    el.classList.add("visible");
+  });
+}
 
-    /* =====================================================
-       MOBILE MENU
-    ====================================================== */
+/* SELECTOR DE MOTIVOS */
+const motifs={
+  koi:{
+    kanji:"鯉",
+    number:"MOTIVO 01 / AGUA",
+    name:"Koi · 鯉",
+    description:"La carpa koi suele asociarse a perseverancia, esfuerzo y transformación. En una composición puede integrarse con corrientes de agua y elementos estacionales.",
+    color:"#ad4839"
+  },
+  ryu:{
+    kanji:"龍",
+    number:"MOTIVO 02 / CIELO",
+    name:"Ryū · 龍",
+    description:"El dragón japonés aparece en numerosas tradiciones artísticas y se vincula con ideas de fuerza, sabiduría y elementos naturales. Su forma sinuosa permite composiciones envolventes.",
+    color:"#9b6754"
+  },
+  botan:{
+    kanji:"牡丹",
+    number:"MOTIVO 03 / FLOR",
+    name:"Botan · 牡丹",
+    description:"La peonía aporta ritmo, volumen y contraste a la composición. Puede acompañar a otros motivos de mayor protagonismo y equilibrar las formas más intensas.",
+    color:"#8e5361"
+  }
+};
 
-    const menuBtn = document.getElementById("menuBtn");
-    const nav = document.getElementById("nav");
+const motifKanji=document.getElementById("motifKanji");
+const motifNumber=document.getElementById("motifNumber");
+const motifName=document.getElementById("motifName");
+const motifDescription=document.getElementById("motifDescription");
+const motifCircle=document.querySelector(".motif-circle");
 
-    menuBtn.addEventListener("click", () => {
-      nav.classList.toggle("mobile-open");
-      menuBtn.textContent =
-        nav.classList.contains("mobile-open") ? "✕" : "☰";
+document.querySelectorAll(".motif-tab").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const data=motifs[btn.dataset.motif];
+
+    document.querySelectorAll(".motif-tab").forEach(item=>{
+      item.setAttribute("aria-pressed",
+        String(item===btn));
     });
 
-    document.querySelectorAll("nav a").forEach(link => {
-      link.addEventListener("click", () => {
-        nav.classList.remove("mobile-open");
-        menuBtn.textContent = "☰";
-      });
-    });
+    motifKanji.textContent=data.kanji;
+    motifNumber.textContent=data.number;
+    motifName.textContent=data.name;
+    motifDescription.textContent=data.description;
+    motifCircle.style.backgroundColor=data.color;
+  });
+});
 
+/* GALERÍA AMPLIABLE */
+const lightbox=document.getElementById("lightbox");
+const lightboxImage=document.getElementById("lightboxImage");
+const lightboxClose=document.getElementById("lightboxClose");
+let previousFocus=null;
 
-    /* =====================================================
-       REVEAL
-    ====================================================== */
+function closeLightbox(){
+  lightbox.hidden=true;
+  lightboxImage.removeAttribute("src");
+  document.body.classList.remove("modal-open");
+  if(previousFocus)previousFocus.focus();
+}
 
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if(entry.isIntersecting){
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: .12 }
+document.querySelectorAll(".gallery-item").forEach(card=>{
+  card.addEventListener("click",()=>{
+    const image=card.querySelector("img");
+    previousFocus=card;
+
+    lightboxImage.src=image.src;
+    lightboxImage.alt=image.alt;
+    lightbox.hidden=false;
+    document.body.classList.add("modal-open");
+    lightboxClose.focus();
+  });
+});
+
+lightboxClose.addEventListener("click",closeLightbox);
+
+lightbox.addEventListener("click",event=>{
+  if(event.target===lightbox)closeLightbox();
+});
+
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape"){
+    if(!lightbox.hidden)closeLightbox();
+    else closeMenu();
+  }
+
+  if(event.key==="Tab"&&!lightbox.hidden){
+    event.preventDefault();
+    lightboxClose.focus();
+  }
+});
+
+/* RESERVAS POR WHATSAPP */
+document.getElementById("bookingForm")
+  .addEventListener("submit",event=>{
+    event.preventDefault();
+
+    const value=id=>
+      document.getElementById(id).value.trim();
+
+    const text=[
+      "Hola, quisiera consultar por un tatuaje en KASUMI.",
+      "",
+      "Nombre: "+value("name"),
+      "WhatsApp: "+value("phone"),
+      "Motivo: "+value("motif"),
+      "Zona: "+(value("bodyPart")||"Por definir"),
+      "Tamaño: "+value("size"),
+      "Idea: "+(value("idea")||"Por conversar")
+    ].join("\n");
+
+    window.open(
+      "https://wa.me/"+WHATSAPP+
+      "?text="+encodeURIComponent(text),
+      "_blank",
+      "noopener,noreferrer"
     );
-
-    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-
-
-    /* =====================================================
-       INTERACTIVE STYLES
-    ====================================================== */
-
-    const styleItems = document.querySelectorAll(".style-item");
-    const stylePreviewImage = document.getElementById("stylePreviewImage");
-    const stylePreviewTitle = document.getElementById("stylePreviewTitle");
-    const stylePreviewLabel = document.getElementById("stylePreviewLabel");
-
-    function activateStyle(item){
-      styleItems.forEach(other => {
-        other.classList.remove("active");
-        other.querySelector(".style-trigger").setAttribute("aria-expanded", "false");
-        other.querySelector(".style-detail").style.maxHeight = null;
-      });
-
-      item.classList.add("active");
-      item.querySelector(".style-trigger").setAttribute("aria-expanded", "true");
-
-      const detail = item.querySelector(".style-detail");
-      detail.style.maxHeight = detail.scrollHeight + "px";
-
-      stylePreviewImage.src = item.dataset.image;
-      stylePreviewTitle.textContent = item.dataset.title;
-      stylePreviewLabel.textContent = item.dataset.label;
-      stylePreviewImage.alt = item.dataset.title;
-    }
-
-    styleItems.forEach(item => {
-      item.querySelector(".style-trigger").addEventListener("click", () => {
-        activateStyle(item);
-      });
-    });
-
-    activateStyle(styleItems[0]);
-
-
-    /* =====================================================
-       CONTACT FORM -> WHATSAPP
-    ====================================================== */
-
-    const contactForm = document.getElementById("contactForm");
-
-    contactForm.addEventListener("submit", event => {
-      event.preventDefault();
-
-      const nombre = document.getElementById("nombre").value;
-      const telefono = document.getElementById("telefono").value;
-      const estilo = document.getElementById("estilo").value;
-      const zona = document.getElementById("zona").value;
-      const mensaje = document.getElementById("mensaje").value;
-
-      const texto =
-`Hola RITO INK.
-
-Mi nombre es ${nombre}.
-
-Quiero consultar por una reserva.
-
-WhatsApp:
-${telefono}
-
-Estilo:
-${estilo}
-
-Zona del cuerpo:
-${zona}
-
-Idea del tatuaje:
-${mensaje}`;
-
-      const whatsapp = "56912345678";
-
-      window.open(
-        `https://wa.me/${whatsapp}?text=${encodeURIComponent(texto)}`,
-        "_blank"
-      );
-    });
-
-  </script>
-
+  });
+</script>
 </body>
 </html>
