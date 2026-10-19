@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="RITO INK — estudio de tatuajes de autor. Blackwork, fine line, ornamental y piezas personalizadas." />
+  <meta name="theme-color" content="#0e0d0d" />
+  <title>RITO INK | Estudio de tatuajes</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root{
+      --bg:#0e0d0d;
+      --bg-soft:#171515;
+      --panel:#141313;
+      --line:rgba(255,255,255,.12);
+
+      --text:#f3eee7;
+      --muted:#aaa29a;
+
+      --accent:#d14f39;
+      --accent-2:#f26b54;
+      --sand:#dfd4c3;
+
+      --shadow:0 30px 80px rgba(0,0,0,.35);
+      --container:1360px;
+      --radius:26px;
+      --ease:.38s cubic-bezier(.2,.7,.2,1);
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:"Inter",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(209,79,57,.05), transparent 24%),
+        radial-gradient(circle at 85% 10%, rgba(255,255,255,.03), transparent 24%);
+    }
+
+    img{
+      width:100%;
+      display:block;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    button,
+    input,
+    textarea,
+    select{
+      font:inherit;
+    }
+
+    button{
+      border:0;
+      background:none;
+      cursor:pointer;
+    }
+
+    ::selection{
+      background:var(--accent);
+      color:#fff;
+    }
+
+    .container{
+      width:min(calc(100% - 48px), var(--container));
+      margin:auto;
+    }
+
+    .section{
+      padding:120px 0;
+    }
+
+    .eyebrow{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:18px;
+      color:var(--accent-2);
+      font-family:"Space Mono",monospace;
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    .eyebrow::before{
+      content:"";
+      width:34px;
+      height:1px;
+      background:currentColor;
+    }
+
+    .display{
+      font-family:"Bebas Neue",sans-serif;
+      font-size:clamp(58px,9vw,132px);
+      line-height:.88;
+      letter-spacing:.02em;
+      text-transform:uppercase;
+    }
+
+    .display span{
+      color:var(--accent);
+    }
+
+    .lead{
+      max-width:560px;
+      color:var(--muted);
+      font-size:17px;
+      line-height:1.85;
+    }
+
+    .btn{
+      min-height:56px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      padding:0 24px;
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+      transition:var(--ease);
+    }
+
+    .btn-primary{
+      background:var(--accent);
+      color:white;
+    }
+
+    .btn-primary:hover{
+      background:var(--accent-2);
+      transform:translateY(-3px);
+    }
+
+    .btn-outline{
+      border:1px solid rgba(255,255,255,.18);
+      color:var(--text);
+    }
+
+    .btn-outline:hover{
+      background:var(--text);
+      color:#111;
+      transform:translateY(-3px);
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:70px;
+    }
+
+    .reveal{
+      opacity:0;
+      transform:translateY(30px);
+      transition:opacity .8s ease, transform .8s ease;
+    }
+
+    .reveal.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    header{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      z-index:999;
+      padding:18px 0;
+      transition:var(--ease);
+    }
+
+    header.scrolled{
+      padding:12px 0;
+      background:rgba(14,13,13,.92);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:26px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-shrink:0;
+    }
+
+    .brand-mark{
+      width:40px;
+      height:40px;
+      border:1px solid rgba(255,255,255,.22);
+      display:grid;
+      place-items:center;
+      color:var(--accent);
+      font-family:"Bebas Neue",sans-serif;
+      font-size:24px;
+      letter-spacing:.04em;
+    }
+
+    .brand-name{
+      font-family:"Bebas Neue",sans-serif;
+      font-size:31px;
+      line-height:.9;
+      letter-spacing:.07em;
+    }
+
+    .brand-sub{
+      display:block;
+      margin-top:4px;
+      color:#8d8378;
+      font-family:"Space Mono",monospace;
+      font-size:9px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+
+    nav ul{
+      list-style:none;
+      display:flex;
+      align-items:center;
+      gap:28px;
+    }
+
+    nav a{
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color:#d7d0c7;
+    }
+
+    nav a:hover{
+      color:var(--accent-2);
+    }
+
+    .nav-cta{
+      padding:12px 18px;
+      border:1px solid rgba(209,79,57,.55);
+      color:#fff;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+
+    .nav-cta:hover{
+      background:var(--accent);
+      border-color:var(--accent);
+    }
+
+    .menu-btn{
+      display:none;
+      width:46px;
+      height:46px;
+      border:1px solid var(--line);
+      color:white;
+      font-size:22px;
+      background:#141313;
+    }
+
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .hero{
+      position:relative;
+      min-height:100svh;
+      display:flex;
+      align-items:center;
+      padding:130px 0 70px;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:"RITO";
+      position:absolute;
+      top:54%;
+      left:52%;
+      transform:translate(-50%,-50%);
+      font-family:"Bebas Neue",sans-serif;
+      font-size:clamp(180px,30vw,460px);
+      line-height:.8;
+      color:white;
+      opacity:.025;
+      letter-spacing:.06em;
+      pointer-events:none;
+    }
+
+    .hero-layout{
+      position:relative;
+      z-index:2;
+      display:grid;
+      grid-template-columns:minmax(0,1.02fr) minmax(420px,.98fr);
+      gap:clamp(45px,7vw,110px);
+      align-items:center;
+      padding-inline:clamp(18px,3vw,60px);
+    }
+
+    .hero-copy{
+      max-width:720px;
+    }
+
+    .hero-title{
+      font-family:"Bebas Neue",sans-serif;
+      font-size:clamp(82px,10vw,164px);
+      line-height:.8;
+      letter-spacing:.02em;
+      text-transform:uppercase;
+    }
+
+    .hero-title span{
+      color:var(--accent);
+      display:block;
+    }
+
+    .hero-text{
+      max-width:520px;
+      margin-top:26px;
+      color:#b3aba1;
+      font-size:17px;
+      line-height:1.85;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:34px;
+    }
+
+    .hero-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:36px;
+    }
+
+    .hero-tags span{
+      padding:9px 12px;
+      border:1px solid rgba(255,255,255,.12);
+      color:#cfc6bb;
+      background:rgba(255,255,255,.03);
+      font-family:"Space Mono",monospace;
+      font-size:11px;
+      text-transform:uppercase;
+    }
+
+    .hero-visual{
+      position:relative;
+      min-height:720px;
+    }
+
+    .hero-main-image{
+      position:absolute;
+      right:0;
+      top:0;
+      width:72%;
+      height:590px;
+      overflow:hidden;
+      border-radius:26px;
+      box-shadow:var(--shadow);
+    }
+
+    .hero-main-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .hero-side-image{
+      position:absolute;
+      left:0;
+      bottom:80px;
+      width:42%;
+      height:290px;
+      overflow:hidden;
+      border:10px solid #111;
+      box-shadow:var(--shadow);
+    }
+
+    .hero-side-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .hero-card{
+      position:absolute;
+      right:10%;
+      bottom:0;
+      width:min(270px,100%);
+      padding:22px;
+      background:rgba(20,19,19,.95);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:var(--shadow);
+    }
+
+    .hero-card small{
+      display:block;
+      color:var(--accent-2);
+      font-family:"Space Mono",monospace;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:10px;
+    }
+
+    .hero-card strong{
+      display:block;
+      font-family:"Bebas Neue",sans-serif;
+      font-size:34px;
+      line-height:.95;
+      letter-spacing:.04em;
+      margin-bottom:8px;
+    }
+
+    .hero-card p{
+      color:#b2a89e;
+      font-size:13px;
+      line-height:1.7;
+    }
+
+
+    /* =====================================================
+       STRIP
+    ===================================================== */
+
+    .marquee{
+      overflow:hidden;
+      background:var(--accent);
+      color:#fff;
+      border-top:1px solid rgba(255,255,255,.12);
+      border-bottom:1px solid rgba(255,255,255,.12);
+      transform:rotate(-1.2deg) scale(1.02);
+      margin:12px 0;
+    }
+
+    .marquee-track{
+      display:flex;
+      width:max-content;
+      animation:marquee 42s linear infinite;
+    }
+
+    .marquee-set{
+      display:flex;
+      align-items:center;
+      gap:28px;
+      padding:16px 22px;
+      white-space:nowrap;
+      font-family:"Bebas Neue",sans-serif;
+      font-size:34px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .marquee-set i{
+      width:10px;
+      height:10px;
+      background:white;
+      transform:rotate(45deg);
+      flex-shrink:0;
+    }
+
+    @keyframes marquee{
+      from{transform:translateX(0);}
+      to{transform:translateX(-50%);}
+    }
+
+
+    /* =====================================================
+       MANIFESTO
+    ===================================================== */
+
+    .manifesto{
+      background:linear-gradient(180deg, var(--bg) 0%, #131212 100%);
+    }
+
+    .manifesto-grid{
+      display:grid;
+      grid-template-columns:.7fr 1.3fr;
+      gap:80px;
+      align-items:start;
+    }
+
+    .manifesto-visual{
+      display:flex;
+      flex-direction:column;
+      gap:26px;
+    }
+
+    .manifesto-visual img{
+      height:430px;
+      object-fit:cover;
+      filter:grayscale(100%);
+    }
+
+    .manifesto-note{
+      padding-top:12px;
+      border-top:1px solid var(--line);
+      color:#998e84;
+      font-family:"Space Mono",monospace;
+      font-size:11px;
+      line-height:1.8;
+      text-transform:uppercase;
+    }
+
+    .manifesto-copy h2{
+      font-family:"Bebas Neue",sans-serif;
+      font-size:clamp(70px,9vw,132px);
+      line-height:.84;
+      text-transform:uppercase;
+      letter-spacing:.02em;
+      margin-bottom:32px;
+    }
+
+    .manifesto-copy h2 span{
+      color:var(--accent);
+    }
+
+    .manifesto-columns{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:34px;
+      padding-top:28px;
+      border-top:1px solid var(--line);
+    }
+
+    .manifesto-columns p{
+      color:#aea59b;
+      line-height:1.9;
+      font-size:15px;
+    }
+
+    .manifesto-columns p:first-child{
+      color:var(--text);
+      font-weight:700;
+      font-size:18px;
+    }
+
+
+    /* =====================================================
+       STYLES
+    ===================================================== */
+
+    .styles{
+      background:var(--sand);
+      color:#141212;
+    }
+
+    .styles .eyebrow{
+      color:#a44534;
+    }
+
+    .styles-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:50px;
+      margin-bottom:65px;
+    }
+
+    .styles-head .lead{
+      color:#5d5750;
+      margin-bottom:0;
+    }
+
+    .styles-layout{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:55px;
+      align-items:start;
+    }
+
+    .style-preview{
+      position:relative;
+      overflow:hidden;
+      background:#28211d;
+      min-height:620px;
+      box-shadow:0 20px 50px rgba(20,12,10,.12);
+    }
+
+    .style-preview img{
+      width:100%;
+      height:620px;
+      object-fit:cover;
+      transition:opacity .25s ease;
+    }
+
+    .style-preview-caption{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      padding:22px 24px;
+      background:linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,0));
+      color:white;
+    }
+
+    .style-preview-caption small{
+      display:block;
+      font-family:"Space Mono",monospace;
+      font-size:10px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#f0beb5;
+      margin-bottom:8px;
+    }
+
+    .style-preview-caption strong{
+      display:block;
+      font-family:"Bebas Neue",sans-serif;
+      font-size:38px;
+      line-height:.9;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+
+    .styles-list{
+      border-top:1px solid rgba(0,0,0,.12);
+    }
+
+    .style-item{
+      border-bottom:1px solid rgba(0,0,0,.12);
+    }
+
+    .style-trigger{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      padding:24px 0;
+      color:#141212;
+      text-align:left;
+    }
+
+    .style-trigger h3{
+      font-family:"Bebas Neue",sans-serif;
+      font-size:38px;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      line-height:.95;
+    }
+
+    .style-trigger span{
+      font-size:24px;
+      color:#9a493b;
+      transition:var(--ease);
+    }
+
+    .style-item.active .style-trigger span{
+      transform:rotate(45deg);
+    }
+
+    .style-detail{
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .35s ease;
+    }
+
+    .style-detail p{
+      max-width:470px;
+      padding-bottom:24px;
+      color:#5e5851;
+      font-size:14px;
+      line-height:1.8;
+    }
+
+
+    /* =====================================================
+       PORTFOLIO
+    ===================================================== */
+
+    .portfolio{
+      background:#100f0f;
+    }
+
+    .portfolio-head{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:60px;
+      align-items:end;
+      margin-bottom:70px;
+    }
+
+    .portfolio-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr 1fr;
+      gap:18px;
+      align-items:start;
+    }
+
+    .folio-card{
+      position:relative;
+      overflow:hidden;
+      background:#1c1b1b;
+      min-height:420px;
+      box-shadow:var(--shadow);
+    }
+
+    .folio-card:nth-child(2){
+      margin-top:80px;
+      min-height:330px;
+    }
+
+    .folio-card:nth-child(3){
+      margin-top:30px;
+      min-height:470px;
+    }
+
+    .folio-card:nth-child(4){
+      min-height:360px;
+      grid-column:1 / span 2;
+    }
+
+    .folio-card:nth-child(5){
+      min-height:360px;
+      grid-column:3 / span 1;
+    }
+
+    .folio-card img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transition:.7s ease;
+    }
+
+    .folio-card:hover img{
+      transform:scale(1.06);
+    }
+
+    .folio-card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,.68), transparent 45%);
+    }
+
+    .folio-info{
+      position:absolute;
+      left:22px;
+      right:22px;
+      bottom:18px;
+      z-index:2;
+    }
+
+    .folio-info small{
+      display:block;
+      color:#f1b2a5;
+      font-family:"Space Mono",monospace;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:8px;
+    }
+
+    .folio-info h3{
+      font-family:"Bebas Neue",sans-serif;
+      font-size:36px;
+      line-height:.9;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+
+
+    /* =====================================================
+       PROCESS
+    ===================================================== */
+
+    .process{
+      background:linear-gradient(180deg, #171313 0%, #0f0e0e 100%);
+    }
+
+    .process-top{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:70px;
+      align-items:end;
+      margin-bottom:65px;
+    }
+
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
+    }
+
+    .step{
+      padding:30px 22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      min-height:250px;
+    }
+
+    .step-num{
+      width:44px;
+      height:44px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:rgba(209,79,57,.18);
+      color:var(--accent-2);
+      font-family:"Space Mono",monospace;
+      font-size:12px;
+      margin-bottom:22px;
+    }
+
+    .step h3{
+      font-family:"Bebas Neue",sans-serif;
+      font-size:34px;
+      line-height:.9;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      margin-bottom:12px;
+    }
+
+    .step p{
+      color:#b3a79c;
+      font-size:14px;
+      line-height:1.8;
+    }
+
+
+    /* =====================================================
+       BOOKING
+    ===================================================== */
+
+    .booking{
+      background:var(--sand);
+      color:#151212;
+    }
+
+    .booking .eyebrow{
+      color:#a44534;
+    }
+
+    .booking-grid{
+      display:grid;
+      grid-template-columns:.92fr 1.08fr;
+      gap:80px;
+      align-items:start;
+    }
+
+    .booking-copy p{
+      max-width:470px;
+      color:#5e5851;
+      line-height:1.85;
+      margin-top:24px;
+    }
+
+    .booking-list{
+      margin-top:40px;
+      border-top:1px solid rgba(0,0,0,.12);
+    }
+
+    .booking-list div{
+      display:flex;
+      justify-content:space-between;
+      gap:15px;
+      padding:18px 0;
+      border-bottom:1px solid rgba(0,0,0,.12);
+      font-size:14px;
+    }
+
+    .booking-list span{
+      color:#6d665f;
+    }
+
+    .booking-form{
+      background:#fff;
+      padding:38px;
+      box-shadow:0 20px 55px rgba(30,20,15,.08);
+    }
+
+    .booking-form h3{
+      font-family:"Bebas Neue",sans-serif;
+      font-size:42px;
+      line-height:.95;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      margin-bottom:24px;
+    }
+
+    .form-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+
+    .field{
+      margin-bottom:18px;
+    }
+
+    .field label{
+      display:block;
+      margin-bottom:8px;
+      font-family:"Space Mono",monospace;
+      font-size:10px;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:#72685f;
+    }
+
+    .field input,
+    .field select,
+    .field textarea{
+      width:100%;
+      padding:15px 14px;
+      border:1px solid #e1d9cf;
+      background:#faf8f4;
+      color:#191616;
+      outline:none;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus{
+      border-color:#b8604f;
+    }
+
+    .field textarea{
+      min-height:115px;
+      resize:vertical;
+    }
+
+    .booking-form .btn{
+      width:100%;
+    }
+
+    .form-note{
+      margin-top:14px;
+      color:#7b7168;
+      font-size:11px;
+      line-height:1.6;
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    footer{
+      padding:70px 0 26px;
+      background:#0a0a0a;
+      border-top:1px solid rgba(255,255,255,.06);
+    }
+
+    .footer-top{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:70px;
+      align-items:start;
+      padding-bottom:60px;
+    }
+
+    .footer-top p{
+      max-width:420px;
+      margin-top:22px;
+      color:#8f8479;
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .footer-links{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px 30px;
+      align-content:start;
+    }
+
+    .footer-links a{
+      color:#d5cdc3;
+      font-size:13px;
+    }
+
+    .footer-links a:hover{
+      color:var(--accent-2);
+    }
+
+    .footer-word{
+      text-align:center;
+      font-family:"Bebas Neue",sans-serif;
+      font-size:clamp(120px,24vw,340px);
+      line-height:.8;
+      letter-spacing:.04em;
+      color:#24201d;
+      user-select:none;
+    }
+
+    .footer-bottom{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      padding-top:25px;
+      border-top:1px solid rgba(255,255,255,.08);
+      color:#7d7369;
+      font-size:11px;
+    }
+
+
+    /* =====================================================
+       WHATSAPP
+    ===================================================== */
+
+    .whatsapp{
+      position:fixed;
+      right:22px;
+      bottom:22px;
+      z-index:900;
+      width:58px;
+      height:58px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:#25d366;
+      box-shadow:0 16px 35px rgba(0,0,0,.25);
+      transition:var(--ease);
+    }
+
+    .whatsapp:hover{
+      transform:translateY(-4px) scale(1.03);
+    }
+
+    .whatsapp svg{
+      width:27px;
+      height:27px;
+      fill:white;
+    }
+
+
+    /* =====================================================
+       TABLET
+    ===================================================== */
+
+    @media(max-width:1080px){
+
+      nav ul,
+      .nav-cta{
+        display:none;
+      }
+
+      .menu-btn{
+        display:grid;
+        place-items:center;
+      }
+
+      nav.mobile-open ul{
+        position:fixed;
+        top:78px;
+        left:16px;
+        right:16px;
+        display:flex;
+        flex-direction:column;
+        align-items:stretch;
+        gap:0;
+        padding:18px;
+        background:rgba(14,13,13,.98);
+        border:1px solid var(--line);
+      }
+
+      nav.mobile-open ul a{
+        display:block;
+        padding:14px 12px;
+      }
+
+      .hero-layout,
+      .manifesto-grid,
+      .styles-layout,
+      .booking-grid{
+        grid-template-columns:1fr;
+      }
+
+      .portfolio-head,
+      .process-top,
+      .styles-head{
+        grid-template-columns:1fr;
+        display:grid;
+      }
+
+      .portfolio-grid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .folio-card:nth-child(1),
+      .folio-card:nth-child(2),
+      .folio-card:nth-child(3),
+      .folio-card:nth-child(4),
+      .folio-card:nth-child(5){
+        grid-column:auto;
+        margin-top:0;
+        min-height:360px;
+      }
+
+      .steps{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .footer-top{
+        grid-template-columns:1fr;
+      }
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media(max-width:700px){
+
+      .container{
+        width:min(calc(100% - 30px), var(--container));
+      }
+
+      .section{
+        padding:88px 0;
+      }
+
+      header{
+        padding:15px 0;
+      }
+
+      .hero{
+        min-height:auto;
+        padding:110px 0 55px;
+      }
+
+      .hero-layout{
+        padding-inline:4px;
+        gap:42px;
+      }
+
+      .hero-title{
+        font-size:clamp(68px,18vw,110px);
+      }
+
+      .hero-text{
+        font-size:15px;
+      }
+
+      .hero-actions{
+        flex-direction:column;
+      }
+
+      .hero-actions .btn{
+        width:100%;
+      }
+
+      .hero-visual{
+        min-height:540px;
+      }
+
+      .hero-main-image{
+        width:86%;
+        height:390px;
+      }
+
+      .hero-side-image{
+        width:45%;
+        height:180px;
+        bottom:78px;
+        border-width:7px;
+      }
+
+      .hero-card{
+        right:0;
+        width:220px;
+        padding:16px;
+      }
+
+      .marquee-set{
+        font-size:26px;
+      }
+
+      .manifesto-copy h2,
+      .display{
+        font-size:clamp(56px,16vw,86px);
+      }
+
+      .manifesto-columns{
+        grid-template-columns:1fr;
+      }
+
+      .style-preview{
+        min-height:420px;
+      }
+
+      .style-preview img{
+        height:420px;
+      }
+
+      .style-trigger h3{
+        font-size:30px;
+      }
+
+      .portfolio-grid{
+        grid-template-columns:1fr;
+      }
+
+      .folio-card{
+        min-height:360px !important;
+      }
+
+      .steps{
+        grid-template-columns:1fr;
+      }
+
+      .booking-form{
+        padding:26px 22px;
+      }
+
+      .form-row{
+        grid-template-columns:1fr;
+        gap:0;
+      }
+
+      .footer-links{
+        grid-template-columns:1fr;
+      }
+
+      .footer-bottom{
+        flex-direction:column;
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      html{
+        scroll-behavior:auto;
+      }
+
+      *, *::before, *::after{
+        animation-duration:.01ms !important;
+        transition-duration:.01ms !important;
+      }
+
+      .reveal{
+        opacity:1;
+        transform:none;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
+  <header id="header">
+    <div class="container nav">
+
+      <a href="#inicio" class="brand">
+        <span class="brand-mark">R</span>
+        <div>
+          <div class="brand-name">RITO INK</div>
+          <span class="brand-sub">Tattoo studio</span>
+        </div>
+      </a>
+
+      <nav id="nav">
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#estilos">Estilos</a></li>
+          <li><a href="#trabajos">Trabajos</a></li>
+          <li><a href="#proceso">Proceso</a></li>
+          <li><a href="#reserva">Reserva</a></li>
+        </ul>
+      </nav>
+
+      <a href="#reserva" class="nav-cta">Reservar cita</a>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+
+    </div>
+  </header>
+
+
+  <!-- =====================================================
+       HERO
+  ====================================================== -->
+
+  <section class="hero" id="inicio">
+    <div class="container hero-layout">
+
+      <div class="hero-copy reveal">
+
+        <div class="eyebrow">Tatuajes de autor · diseño personalizado</div>
+
+        <h1 class="hero-title">
+          TINTA CON
+          <span>CARÁCTER.</span>
+        </h1>
+
+        <p class="hero-text">
+          Un estudio de tatuajes con identidad propia,
+          pensado para piezas que se sientan personales,
+          potentes y hechas para durar. Blackwork,
+          fine line, ornamental y diseños custom.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#reserva" class="btn btn-primary">
+            Reservar sesión
+            <span>↗</span>
+          </a>
+
+          <a href="#trabajos" class="btn btn-outline">
+            Ver portafolio
+          </a>
+        </div>
+
+        <div class="hero-tags">
+          <span>Blackwork</span>
+          <span>Fine line</span>
+          <span>Ornamental</span>
+          <span>Custom</span>
+        </div>
+
+      </div>
+
+
+
+      <div class="hero-visual reveal">
+
+        <div class="hero-main-image">
+          <img
+            src="https://images.unsplash.com/photo-1562962230-16e4623d36e6?auto=format&fit=crop&w=1200&q=90"
+            alt="Tatuador trabajando"
+          />
+        </div>
+
+        <div class="hero-side-image">
+          <img
+            src="https://images.unsplash.com/photo-1542727365-19732a80dcfd?auto=format&fit=crop&w=900&q=90"
+            alt="Brazo con tatuajes"
+          />
+        </div>
+
+        <div class="hero-card">
+          <small>Booking abierto</small>
+          <strong>Piezas únicas.<br>Sin copiar.</strong>
+          <p>
+            Cada diseño se construye según tu idea,
+            tu cuerpo y la estética del estudio.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       STRIP
+  ====================================================== -->
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <div class="marquee-set">
+        BLACKWORK <i></i> FINE LINE <i></i> ORNAMENTAL <i></i> CUSTOM DESIGN <i></i> TATTOO STUDIO <i></i>
+      </div>
+      <div class="marquee-set">
+        BLACKWORK <i></i> FINE LINE <i></i> ORNAMENTAL <i></i> CUSTOM DESIGN <i></i> TATTOO STUDIO <i></i>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =====================================================
+       MANIFESTO
+  ====================================================== -->
+
+  <section class="section manifesto">
+
+    <div class="container manifesto-grid">
+
+      <div class="manifesto-visual reveal">
+        <img
+          src="https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?auto=format&fit=crop&w=1000&q=90"
+          alt="Diseño de tatuaje"
+          loading="lazy"
+        />
+        <div class="manifesto-note">
+          RITO INK / ESTUDIO DEMOSTRATIVO / HECHO PARA MOSTRAR ESTILO Y PRESENCIA VISUAL
+        </div>
+      </div>
+
+      <div class="manifesto-copy reveal">
+
+        <div class="eyebrow">La idea del estudio</div>
+
+        <h2>
+          NO HACEMOS SOLO
+          <span>TATUAJES.</span>
+          HACEMOS PIEZAS
+          CON PESO VISUAL.
+        </h2>
+
+        <div class="manifesto-columns">
+          <p>
+            Un buen tatuaje no es solo una imagen bonita.
+            También es composición, intención y presencia.
+          </p>
+
+          <p>
+            El enfoque del estudio es trabajar con calma el diseño,
+            respetar la anatomía del cuerpo y crear piezas con una
+            estética coherente. La meta no es llenar espacio: es
+            que el tatuaje se sienta correcto, fuerte y tuyo.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       STYLES
+  ====================================================== -->
+
+  <section class="section styles" id="estilos">
+
+    <div class="container">
+
+      <div class="styles-head">
+
+        <div class="reveal">
+          <div class="eyebrow">Estilos del estudio</div>
+          <h2 class="display">
+            CADA IDEA
+            <span>TIENE SU LENGUAJE.</span>
+          </h2>
+        </div>
+
+        <p class="lead reveal">
+          Explora algunos enfoques visuales del estudio.
+          Cada uno transmite algo distinto y se adapta a
+          diferentes tipos de piezas.
+        </p>
+
+      </div>
+
+
+      <div class="styles-layout">
+
+        <div class="style-preview reveal">
+          <img
+            id="stylePreviewImage"
+            src="https://images.unsplash.com/photo-1590246814883-f7b2d7c0cc62?auto=format&fit=crop&w=1200&q=90"
+            alt="Tatuaje blackwork"
+          />
+          <div class="style-preview-caption">
+            <small id="stylePreviewLabel">Estilo destacado</small>
+            <strong id="stylePreviewTitle">Blackwork</strong>
+          </div>
+        </div>
+
+
+        <div class="styles-list">
+
+          <div class="style-item active reveal"
+            data-title="Blackwork"
+            data-label="Estilo destacado"
+            data-image="https://images.unsplash.com/photo-1590246814883-f7b2d7c0cc62?auto=format&fit=crop&w=1200&q=90">
+
+            <button class="style-trigger" type="button" aria-expanded="true">
+              <h3>Blackwork</h3>
+              <span>+</span>
+            </button>
+
+            <div class="style-detail">
+              <p>
+                Trazos sólidos, contraste fuerte y un lenguaje visual
+                más oscuro y contundente. Ideal para piezas con presencia
+                y lectura clara.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="style-item reveal"
+            data-title="Fine Line"
+            data-label="Estilo destacado"
+            data-image="https://images.unsplash.com/photo-1611270629569-8b357cb88da9?auto=format&fit=crop&w=1200&q=90">
+
+            <button class="style-trigger" type="button" aria-expanded="false">
+              <h3>Fine line</h3>
+              <span>+</span>
+            </button>
+
+            <div class="style-detail">
+              <p>
+                Líneas delicadas, detalles más finos y una estética limpia.
+                Muy usado en tatuajes sutiles, botánicos, simbólicos o más elegantes.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="style-item reveal"
+            data-title="Ornamental"
+            data-label="Estilo destacado"
+            data-image="https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?auto=format&fit=crop&w=1200&q=90">
+
+            <button class="style-trigger" type="button" aria-expanded="false">
+              <h3>Ornamental</h3>
+              <span>+</span>
+            </button>
+
+            <div class="style-detail">
+              <p>
+                Composición decorativa, simetría y flujo visual pensado
+                para dialogar con la forma del cuerpo. Perfecto para piezas más rituales o estéticas.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="style-item reveal"
+            data-title="Custom design"
+            data-label="Estilo destacado"
+            data-image="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1200&q=90">
+
+            <button class="style-trigger" type="button" aria-expanded="false">
+              <h3>Custom design</h3>
+              <span>+</span>
+            </button>
+
+            <div class="style-detail">
+              <p>
+                Diseños hechos desde cero, desarrollados a partir de una idea,
+                un concepto o una referencia, buscando un resultado único y personal.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       PORTFOLIO
+  ====================================================== -->
+
+  <section class="section portfolio" id="trabajos">
+
+    <div class="container">
+
+      <div class="portfolio-head">
+
+        <div class="reveal">
+          <div class="eyebrow">Portafolio de muestra</div>
+          <h2 class="display">
+            TATUAJES
+            <span>CON PRESENCIA.</span>
+          </h2>
+        </div>
+
+        <p class="lead reveal">
+          Una composición visual más tipo editorial que portafolio clásico,
+          para que la web tenga alma propia y no se sienta genérica.
+        </p>
+
+      </div>
+
+
+      <div class="portfolio-grid">
+
+        <article class="folio-card reveal">
+          <img
+            src="https://images.unsplash.com/photo-1542727365-19732a80dcfd?auto=format&fit=crop&w=1200&q=90"
+            alt="Tatuaje en brazo"
+            loading="lazy"
+          />
+          <div class="folio-info">
+            <small>Blackwork</small>
+            <h3>Stroke Ritual</h3>
+          </div>
+        </article>
+
+        <article class="folio-card reveal">
+          <img
+            src="https://images.unsplash.com/photo-1543059080-f9b1272213d5?auto=format&fit=crop&w=1000&q=90"
+            alt="Tatuaje pequeño"
+            loading="lazy"
+          />
+          <div class="folio-info">
+            <small>Fine line</small>
+            <h3>Quiet Mark</h3>
+          </div>
+        </article>
+
+        <article class="folio-card reveal">
+          <img
+            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=90"
+            alt="Detalle artístico"
+            loading="lazy"
+          />
+          <div class="folio-info">
+            <small>Custom</small>
+            <h3>Skin Story</h3>
+          </div>
+        </article>
+
+        <article class="folio-card reveal">
+          <img
+            src="https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=1400&q=90"
+            alt="Diseño ornamental"
+            loading="lazy"
+          />
+          <div class="folio-info">
+            <small>Ornamental</small>
+            <h3>Body Pattern</h3>
+          </div>
+        </article>
+
+        <article class="folio-card reveal">
+          <img
+            src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=90"
+            alt="Estilo visual del estudio"
+            loading="lazy"
+          />
+          <div class="folio-info">
+            <small>Visual mood</small>
+            <h3>Studio Aura</h3>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       PROCESS
+  ====================================================== -->
+
+  <section class="section process" id="proceso">
+
+    <div class="container">
+
+      <div class="process-top">
+
+        <div class="reveal">
+          <div class="eyebrow">Cómo trabajamos</div>
+          <h2 class="display">
+            DEL CONCEPTO
+            <span>A LA PIEL.</span>
+          </h2>
+        </div>
+
+        <p class="lead reveal">
+          Un proceso claro transmite profesionalismo:
+          idea, diseño, ajuste y tatuaje. Así la experiencia
+          se siente mejor cuidada.
+        </p>
+
+      </div>
+
+
+      <div class="steps">
+
+        <article class="step reveal">
+          <div class="step-num">01</div>
+          <h3>Idea</h3>
+          <p>
+            Conversamos sobre la referencia, el significado,
+            el estilo y la ubicación del tatuaje.
+          </p>
+        </article>
+
+        <article class="step reveal">
+          <div class="step-num">02</div>
+          <h3>Diseño</h3>
+          <p>
+            Se desarrolla una propuesta visual alineada
+            con tu idea y con el lenguaje del estudio.
+          </p>
+        </article>
+
+        <article class="step reveal">
+          <div class="step-num">03</div>
+          <h3>Ajuste</h3>
+          <p>
+            Revisamos tamaño, composición y detalles
+            para que el diseño funcione bien en el cuerpo.
+          </p>
+        </article>
+
+        <article class="step reveal">
+          <div class="step-num">04</div>
+          <h3>Sesión</h3>
+          <p>
+            Se realiza el tatuaje con preparación,
+            higiene, calma y foco en el resultado final.
+          </p>
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       BOOKING
+  ====================================================== -->
+
+  <section class="section booking" id="reserva">
+
+    <div class="container booking-grid">
+
+      <div class="booking-copy reveal">
+
+        <div class="eyebrow">Reserva tu sesión</div>
+
+        <h2 class="display">
+          HABLEMOS DE
+          <span>TU PRÓXIMA PIEZA.</span>
+        </h2>
+
+        <p>
+          Completa el formulario y se abrirá WhatsApp con tu solicitud.
+          Ideal para mostrar una experiencia moderna, directa y fácil para reservar.
+        </p>
+
+        <div class="booking-list">
+          <div>
+            <span>Estudio</span>
+            <strong>RITO INK / Demo</strong>
+          </div>
+          <div>
+            <span>Especialidades</span>
+            <strong>Blackwork · Fine line · Ornamental</strong>
+          </div>
+          <div>
+            <span>Atención</span>
+            <strong>Con cita previa</strong>
+          </div>
+          <div>
+            <span>Ubicación</span>
+            <strong>Santiago · Chile</strong>
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <form class="booking-form reveal" id="contactForm">
+
+        <h3>Solicitar reserva</h3>
+
+        <div class="form-row">
+
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="text" placeholder="Tu nombre" required />
+          </div>
+
+          <div class="field">
+            <label for="telefono">WhatsApp</label>
+            <input id="telefono" type="tel" placeholder="+56 9..." required />
+          </div>
+
+        </div>
+
+
+        <div class="form-row">
+
+          <div class="field">
+            <label for="estilo">Estilo</label>
+            <select id="estilo">
+              <option>Blackwork</option>
+              <option>Fine line</option>
+              <option>Ornamental</option>
+              <option>Custom design</option>
+              <option>No estoy seguro/a</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="zona">Zona del cuerpo</label>
+            <input id="zona" type="text" placeholder="Ej: antebrazo" />
+          </div>
+
+        </div>
+
+
+        <div class="field">
+          <label for="mensaje">Idea del tatuaje</label>
+          <textarea id="mensaje" placeholder="Cuéntame tu idea, tamaño aproximado o referencias..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          Enviar por WhatsApp
+          <span>↗</span>
+        </button>
+
+        <p class="form-note">
+          Esto es una maqueta demostrativa. Reemplaza el número y los datos por los reales.
+        </p>
+
+      </form>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       FOOTER
+  ====================================================== -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div>
+          <a href="#inicio" class="brand">
+            <span class="brand-mark">R</span>
+            <div>
+              <div class="brand-name">RITO INK</div>
+              <span class="brand-sub">Tattoo studio</span>
+            </div>
+          </a>
+
+          <p>
+            Web de muestra para un estudio de tatuajes con una estética más fuerte,
+            artística y memorable que una web comercial común.
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <a href="#inicio">Inicio</a>
+          <a href="#estilos">Estilos</a>
+          <a href="#trabajos">Trabajos</a>
+          <a href="#proceso">Proceso</a>
+          <a href="#reserva">Reserva</a>
+          <a href="#">Instagram ↗</a>
+        </div>
+
+      </div>
+
+      <div class="footer-word" aria-hidden="true">RITO INK</div>
+
+      <div class="footer-bottom">
+        <span>© 2026 RITO INK — Demo visual</span>
+        <span>Tinta con carácter.</span>
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =====================================================
+       WHATSAPP
+  ====================================================== -->
+
+  <a
+    href="https://wa.me/56912345678?text=Hola%20RITO%20INK%2C%20quiero%20consultar%20por%20una%20reserva"
+    target="_blank"
+    rel="noopener"
+    class="whatsapp"
+    aria-label="WhatsApp"
+  >
+    <svg viewBox="0 0 32 32">
+      <path d="M19.11 17.43c-.28-.14-1.65-.81-1.9-.9-.26-.1-.44-.14-.63.14-.19.28-.72.9-.88 1.09-.16.19-.33.21-.61.07-.28-.14-1.18-.43-2.25-1.39-.83-.74-1.4-1.66-1.56-1.94-.16-.28-.02-.43.12-.57.13-.13.28-.33.42-.49.14-.16.19-.28.28-.47.09-.19.05-.35-.02-.49-.07-.14-.63-1.51-.86-2.07-.23-.54-.46-.47-.63-.48h-.54c-.19 0-.49.07-.75.35-.26.28-.98.96-.98 2.34 0 1.37 1 2.7 1.14 2.88.14.19 1.97 3.01 4.77 4.22.67.29 1.19.46 1.59.59.67.21 1.28.18 1.76.11.54-.08 1.65-.68 1.88-1.33.23-.65.23-1.21.16-1.33-.07-.11-.26-.18-.54-.32z"/>
+      <path d="M16.03 3C8.85 3 3.03 8.8 3.03 15.96c0 2.28.6 4.51 1.73 6.47L3 29l6.74-1.76a13 13 0 0 0 6.28 1.6h.01c7.18 0 13-5.81 13-12.96C29.03 8.8 23.21 3 16.03 3zm0 23.65h-.01a10.8 10.8 0 0 1-5.5-1.51l-.39-.23-4 1.05 1.07-3.89-.25-.4a10.71 10.71 0 0 1-1.66-5.71c0-5.94 4.83-10.77 10.76-10.77 2.88 0 5.58 1.12 7.61 3.15a10.69 10.69 0 0 1 3.15 7.62c-.02 5.94-4.84 10.77-10.78 10.77z"/>
+    </svg>
+  </a>
+
+
+  <script>
+
+    /* =====================================================
+       HEADER
+    ====================================================== */
+
+    const header = document.getElementById("header");
+
+    window.addEventListener("scroll", () => {
+      if(window.scrollY > 40){
+        header.classList.add("scrolled");
+      }else{
+        header.classList.remove("scrolled");
+      }
+    });
+
+
+    /* =====================================================
+       MOBILE MENU
+    ====================================================== */
+
+    const menuBtn = document.getElementById("menuBtn");
+    const nav = document.getElementById("nav");
+
+    menuBtn.addEventListener("click", () => {
+      nav.classList.toggle("mobile-open");
+      menuBtn.textContent =
+        nav.classList.contains("mobile-open") ? "✕" : "☰";
+    });
+
+    document.querySelectorAll("nav a").forEach(link => {
+      link.addEventListener("click", () => {
+        nav.classList.remove("mobile-open");
+        menuBtn.textContent = "☰";
+      });
+    });
+
+
+    /* =====================================================
+       REVEAL
+    ====================================================== */
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: .12 }
+    );
+
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+
+    /* =====================================================
+       INTERACTIVE STYLES
+    ====================================================== */
+
+    const styleItems = document.querySelectorAll(".style-item");
+    const stylePreviewImage = document.getElementById("stylePreviewImage");
+    const stylePreviewTitle = document.getElementById("stylePreviewTitle");
+    const stylePreviewLabel = document.getElementById("stylePreviewLabel");
+
+    function activateStyle(item){
+      styleItems.forEach(other => {
+        other.classList.remove("active");
+        other.querySelector(".style-trigger").setAttribute("aria-expanded", "false");
+        other.querySelector(".style-detail").style.maxHeight = null;
+      });
+
+      item.classList.add("active");
+      item.querySelector(".style-trigger").setAttribute("aria-expanded", "true");
+
+      const detail = item.querySelector(".style-detail");
+      detail.style.maxHeight = detail.scrollHeight + "px";
+
+      stylePreviewImage.src = item.dataset.image;
+      stylePreviewTitle.textContent = item.dataset.title;
+      stylePreviewLabel.textContent = item.dataset.label;
+      stylePreviewImage.alt = item.dataset.title;
+    }
+
+    styleItems.forEach(item => {
+      item.querySelector(".style-trigger").addEventListener("click", () => {
+        activateStyle(item);
+      });
+    });
+
+    activateStyle(styleItems[0]);
+
+
+    /* =====================================================
+       CONTACT FORM -> WHATSAPP
+    ====================================================== */
+
+    const contactForm = document.getElementById("contactForm");
+
+    contactForm.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const nombre = document.getElementById("nombre").value;
+      const telefono = document.getElementById("telefono").value;
+      const estilo = document.getElementById("estilo").value;
+      const zona = document.getElementById("zona").value;
+      const mensaje = document.getElementById("mensaje").value;
+
+      const texto =
+`Hola RITO INK.
+
+Mi nombre es ${nombre}.
+
+Quiero consultar por una reserva.
+
+WhatsApp:
+${telefono}
+
+Estilo:
+${estilo}
+
+Zona del cuerpo:
+${zona}
+
+Idea del tatuaje:
+${mensaje}`;
+
+      const whatsapp = "56912345678";
+
+      window.open(
+        `https://wa.me/${whatsapp}?text=${encodeURIComponent(texto)}`,
+        "_blank"
+      );
+    });
+
+  </script>
+
+</body>
+</html>
